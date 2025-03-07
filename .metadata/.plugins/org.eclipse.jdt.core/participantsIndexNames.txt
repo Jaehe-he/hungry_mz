@@ -5,7 +5,3 @@ C:\naver1210\hungry_mz\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\184
 \hungry_mz\src\main\java
 C:\naver1210\hungry_mz\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3643357009.index
 \hungry_mz\src\main\java
-C:\naver1210\hungry_mz\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3498986735.index
-\hungry_mz\src\main\java
-C:\naver1210\hungry_mz\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3536474867.index
-\hungry_mz\src\main\java
