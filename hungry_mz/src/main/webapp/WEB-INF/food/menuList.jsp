@@ -66,7 +66,7 @@
             border: 1px solid black;
             border-radius: 5px;
             position: relative;
-            width: 90%;
+            width: 100%;
             height: 550px;
             overflow: auto;
         }
@@ -151,7 +151,7 @@
             display: flex;
             justify-content: center;
             margin-top: 10px;
-            width: 500px;
+            width: 100%;
         }
 
         div.pagination a {
