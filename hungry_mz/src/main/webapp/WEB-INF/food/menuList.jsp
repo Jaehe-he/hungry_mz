@@ -73,7 +73,7 @@
 
         div.menuList {
             margin: 1%;
-            width: 95%;
+            width: 100%;
             overflow: auto;
             padding: 0 1%;
             overflow: auto;
@@ -282,7 +282,37 @@
                     $.ajax({
                         type: "get",
                         dataType: "json",
-                        url: "/menu/" + $(this).attr("restaurantId"),
+                        url: "/menu/restaurant/" + $(this).attr("restaurantId"),
+                        success: function (res) {
+                            let s = "";
+                            $.each(res, function (idx, ele) {
+                                let name = ele.name;
+                                let price = ele.price;
+                                let image = ele.image;
+                                let description = ele.description;
+                                s += `
+                                <div class="menu">
+                                    <div class="content text">
+                                        <span class="foodName">`+name+`</span>
+                                        <span class="description">`+description+`</span>
+                                        <div style="display: inline-block">
+                                            <div class="price">`+price+`원</div>
+                                            <div class="review">리뷰</div>
+                                        </div>
+                                    </div>
+                                `;
+                                if(image!=""){
+                                    s+=`
+                                    <div class="content img">
+                                        <img class="menuImg" src="`+image+`">
+                                    </div>
+                                    `;
+                                }
+                                s+=`</div>
+                                <hr>`;
+                                $("div.restaurant div.menuList").html(s);
+                            });
+                        }
                     });
                 }
             });
