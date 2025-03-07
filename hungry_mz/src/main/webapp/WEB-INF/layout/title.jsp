@@ -110,7 +110,7 @@
             </c:if>
         </li>
         <li>
-            <a href="${root}//list">게시판</a>
+            <a href="${root}/review/reviewform">게시판</a>
         </li>
         <li>
             <c:if test="${sessionScope.loginstatus==null}">

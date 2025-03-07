@@ -35,7 +35,7 @@ public class LoginController {
 		return map;
 	}
 	
-	@GetMapping("/member/logout")
+	@GetMapping("member/logout")
 	public void userlogin(HttpSession session) {
 		session.removeAttribute("loginstatus");
 		session.removeAttribute("username");
