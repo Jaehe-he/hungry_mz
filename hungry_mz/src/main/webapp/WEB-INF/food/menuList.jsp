@@ -16,6 +16,7 @@
         body * {
             font-family: 'Jua';
         }
+
         div.container {
             display: flex;
             justify-content: space-evenly;
@@ -23,6 +24,7 @@
             width: 100%;
             position: relative;
         }
+
         div.menu {
             display: flex;
             align-items: center; /* 수직 중앙 정렬 */
@@ -31,7 +33,9 @@
             border: 1px solid gray;
             border-radius: 5px;
             padding: 5px 10px;
+            cursor: pointer;
         }
+
         div.text {
             display: flex;
             flex-direction: column; /* 세로 정렬 */
@@ -44,6 +48,7 @@
             border: 1px solid gray;
             border-radius: 5px;
         }
+
         div.img {
             width: 120px;
             height: 120px;
@@ -55,7 +60,9 @@
             height: 100px;
             margin: 10px;
         }
+
         div.restaurant {
+            visibility: visible;
             border: 1px solid black;
             border-radius: 5px;
             position: relative;
@@ -63,6 +70,7 @@
             height: 550px;
             overflow: auto;
         }
+
         div.menuList {
             margin: 1%;
             width: 95%;
@@ -70,6 +78,7 @@
             padding: 0 1%;
             overflow: auto;
         }
+
         div.option {
             position: relative;
             right: 10%;
@@ -77,21 +86,25 @@
             text-align: center;
             margin-left: 10%;
         }
+
         div.listMethod {
             display: inline-block;
-            width: 90px;
+            width: 80px;
             text-align: center;
         }
+
         div.price {
             width: 60%;
             font-size: 0.9em;
             display: inline-block;
         }
+
         div.review {
             width: 30%;
             font-size: 0.9em;
             display: inline-block;
         }
+
         div.optionContainer {
             display: inline-block;
             width: 200px;
@@ -100,45 +113,54 @@
             text-align: center;
             padding: 2px;
         }
+
         span.description {
             font-size: 0.9em;
             color: gray;
         }
+
         img.thumbnail {
             display: flex;
             flex: fit-content;
             width: 60%;
-            height: 30%;
+            max-height: 250px;
             margin: 10px 20% 0;
             border-radius: 5px;
         }
+
         div.info {
             margin-left: 20px;
             margin-bottom: 5px;
         }
+
         span.info {
             padding-bottom: 10px;
         }
+
         span.title {
             font-size: 1.1em;
         }
+
         div.thumbnail {
             padding-bottom: 10px;
             border-bottom: 1px solid black;
             margin-bottom: 10px;
         }
+
         div.pagination {
             display: flex;
             justify-content: center;
             margin-top: 10px;
             width: 500px;
         }
+
         div.pagination a {
             margin: 0 5px;
             padding: 5px 10px;
             border: 1px solid #ccc;
             cursor: pointer;
         }
+
         div.menuPage {
             margin: 1%;
         }
@@ -148,20 +170,26 @@
 <body>
 <jsp:include page="../layout/title.jsp"/>
 <div class="option">
-    정렬 기준 : <div class="optionContainer"><div class="listMethod">가격 낮은순</div>|<div class="listMethod">가격 높은순</div></div>
+    정렬 기준 :
+    <div class="optionContainer">
+        <div class="listMethod">가격 낮은순</div>
+        |
+        <div class="listMethod">가격 높은순</div>
+    </div>
 </div>
 <div class="container">
     <div class="menuPage">
         <div class="menuList" style="height: 500px;">
             <c:forEach var="dto" items="${list}">
-                <div class="menu" menuId=${dto.menuId} restaurantId=${dto.restaurantId}><div class="content text">
-                    <span class="foodName">${dto.name}</span>
-                    <span class="description">${dto.description}</span>
-                    <div style="display: inline-block">
-                        <div class="price">${dto.price}원</div>
-                        <div class="review">리뷰</div>
+                <div class="menu" menuId=${dto.menuId} restaurantId=${dto.restaurantId}>
+                    <div class="content text">
+                        <span class="foodName">${dto.name}</span>
+                        <span class="description">${dto.description}</span>
+                        <div style="display: inline-block">
+                            <div class="price">${dto.price}원</div>
+                            <div class="review">리뷰</div>
+                        </div>
                     </div>
-                </div>
                     <c:if test="${dto.image!=''}">
                         <div class="content img">
                             <img class="menuImg" src="${dto.image}">
@@ -196,9 +224,74 @@
             </c:if>
         </div>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/restaurant/random",
+                success: function (res) {
+                    $("span.title").text(res.title);
+                    $("img.thumbnail").attr("src", res.image);
+                    $.ajax({
+                        type: "get",
+                        dataType: "json",
+                        url: "/menu/restaurant/" + res.restaurantId,
+                        success: function (res) {
+                            let s = "";
+                            $.each(res, function (idx, ele) {
+                                let name = ele.name;
+                                let price = ele.price;
+                                let image = ele.image;
+                                let description = ele.description;
+                                s += `
+                                <div class="menu">
+                                    <div class="content text">
+                                        <span class="foodName">`+name+`</span>
+                                        <span class="description">`+description+`</span>
+                                        <div style="display: inline-block">
+                                            <div class="price">`+price+`원</div>
+                                            <div class="review">리뷰</div>
+                                        </div>
+                                    </div>
+                                `;
+                                if(image!=""){
+                                    s+=`
+                                    <div class="content img">
+                                        <img class="menuImg" src="`+image+`">
+                                    </div>
+                                    `;
+                                }
+                                s+=`</div>
+                                <hr>`;
+                                $("div.restaurant div.menuList").html(s);
+                            });
+                        }
+                    });
+                }
+            });
+        });
+        $("div.menu").click(function () {
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/restaurant/" + $(this).attr("restaurantId"),
+                success: function (res) {
+                    $("span.title").text(res.title);
+                    $("img.thumbnail").attr("src", res.image);
+                    $.ajax({
+                        type: "get",
+                        dataType: "json",
+                        url: "/menu/" + $(this).attr("restaurantId"),
+                    });
+                }
+            });
+        });
+    </script>
     <div class="restaurant">
         <div class="thumbnail">
-            <img class="thumbnail" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fnaverbooking-phinf.pstatic.net%2F20240405_160%2F17123206563219hooW_JPEG%2F%25B6%25BC%25BC%25A6.jpg">
+            <img class="thumbnail"
+                 src="https://search.pstatic.net/common/?src=https%3A%2F%2Fnaverbooking-phinf.pstatic.net%2F20240405_160%2F17123206563219hooW_JPEG%2F%25B6%25BC%25BC%25A6.jpg">
         </div>
         <div class="info">
             <span class="title">식당 이름</span>
@@ -210,20 +303,7 @@
             <span>메뉴</span>
         </div>
         <div class="menuList">
-            <div class="menu">
-                <div class="content text">
-                    <span class="foodName">이름</span>
-                    <span class="description">디테일</span>
-                    <div style="display: inline-block">
-                        <div class="price">가격</div>
-                        <div class="review">리뷰</div>
-                    </div>
-                </div>
-                <div class="content img">
-                    <img class="menuImg" src="${root}/s4.JPG">
-                </div>
-            </div>
-            <hr>
+
             <div class="menu">
                 <div class="content text">
                     <span class="foodName">이름</span>

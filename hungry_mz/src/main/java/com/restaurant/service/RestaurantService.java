@@ -26,4 +26,7 @@ public class RestaurantService {
     public boolean isExistByTitle(String title){
         return mapper.getCountByTitle(title)!=0?true:false;
     }
+    public int getTotalCount(){
+        return mapper.getTotalCount();
+    }
 }

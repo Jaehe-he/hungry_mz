@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -43,9 +44,6 @@ public class MenuController {
         //각 페이지에서 불러올 시작번호
         startNum=(pageNum-1)*perPage; //mysql 은 첫글이 0번(오라클은 1번이므로 +1해야한다)
         list=menuService.getPagingList(startNum, perPage);
-        for(MenuDto dto:list){
-            System.out.println(dto);
-        }
 
         //각페이지의 글앞에 출력할 시작번호(예:총글이 20개일경우 1페이지는 20,2페이이즌 15..)
         no=totalCount-(pageNum-1)*perPage;
@@ -70,6 +68,7 @@ public class MenuController {
         return menuService.getMenuByMenuId(menuId);
     }
     @GetMapping("/menu/restaurant/{restaurantId}")
+    @ResponseBody
     public List<MenuDto> getMenuListByRestaurantId(@PathVariable int restaurantId){
         return menuService.getMenuListByRestaurantId(restaurantId);
     }

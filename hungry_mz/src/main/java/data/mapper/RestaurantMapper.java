@@ -12,4 +12,5 @@ public interface RestaurantMapper {
     void insertRestaurant(RestaurantDto dto);
     RestaurantDto getRestaurantByTitle(String title);
     int getCountByTitle(String title);
+    int getTotalCount();
 }

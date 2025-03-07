@@ -15,10 +15,14 @@
 		WHERE title = #{title}
 	</select>
 	<select id="getRestaurantList" resultType="data.dto.RestaurantDto">
-		select * from restaurant;
+		SELECT restaurant_id AS restaurantId, title, location, image, registered_date
+		FROM restaurant;
 	</select>
 	<insert id="insertRestaurant" parameterType="data.dto.RestaurantDto">
 		insert into restaurant (title, location, image)
 		values (#{title}, #{location}, #{image})
 	</insert>
+	<select id="getTotalCount" resultType="int">
+		select count(*) from restaurant
+	</select>
 </mapper>
