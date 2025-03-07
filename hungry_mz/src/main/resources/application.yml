@@ -25,4 +25,4 @@ spring:
 #mybatis setting
 mybatis:
   type-aliases-package: data.dto
-  mapper-locations: classpath:mapper//*.xml
+  mapper-locations: classpath:/mapper/*.xml

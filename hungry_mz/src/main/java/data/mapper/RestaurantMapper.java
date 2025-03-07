@@ -1,6 +1,7 @@
 package data.mapper;
 
 import data.dto.RestaurantDto;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

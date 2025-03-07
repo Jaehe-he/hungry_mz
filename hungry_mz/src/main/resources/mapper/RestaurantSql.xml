@@ -7,4 +7,22 @@
 	<select id="getRestaurantList" resultType="RestaurantDto">
 		select * from restaurant;
 	</select>
+	
+
+	<insert id="insertReview" parameterType="ReviewDto">
+		insert into review (review_id, restaurant_id, username, review_content, review_img, write_date)
+		values (#{review_id}, #{restaurant_id}, #{username}, #{review_content}, #{review_img}, now())
+	</insert>
+	
+	<select id="getSelectReviews" parameterType="int" resultType="ReviewDto">
+		select * from review where restaurant_id=#{restaurant_id} order by review_id asc
+	</select>
+	
+	<select id="getSelectData" parameterType="int" resultType="ReviewDto">
+		select * from review where review_id=#{review_id}
+	</select>
+	
+	<delete id="deleteReview" parameterType="int">
+		delete from review where review_id=#{review_id}
+	</delete>
 </mapper>
