@@ -231,6 +231,7 @@
                     <div style="display: inline-block">
                         <div class="price">가격</div>
                         <div class="review">리뷰</div>
+                        <div class="reviewadd"></div>
                     </div>
                 </div>
                 <div class="content img">

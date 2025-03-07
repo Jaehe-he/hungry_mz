@@ -2,3 +2,4 @@
 naver.properties
 *.yaml
 target/
+.metadata

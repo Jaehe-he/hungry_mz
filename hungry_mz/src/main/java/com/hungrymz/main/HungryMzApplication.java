@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({"data", "com.hungrymz", "com.naver.storage", "com.menu.controller", "com.menu.service"})
+@ComponentScan({"data.*", "*.controller", "com.hungrymz", "com.naver.storage", "com.menu.controller", "com.menu.service"})
 @MapperScan("data.mapper")
 public class HungryMzApplication {
 	public static void main(String[] args) {
