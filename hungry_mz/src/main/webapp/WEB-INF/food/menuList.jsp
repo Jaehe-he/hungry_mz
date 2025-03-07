@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,19 +56,19 @@
             margin: 10px;
         }
         div.restaurant {
-            border: 1px solid black;`
+            border: 1px solid black;
             border-radius: 5px;
             position: relative;
-            height: 550px;
             width: 90%;
+            height: 550px;
             overflow: auto;
         }
         div.menuList {
             margin: 1%;
-            width: 100%;
+            width: 95%;
             overflow: auto;
-            height: 500px;
             padding: 0 1%;
+            overflow: auto;
         }
         div.option {
             position: relative;
@@ -77,7 +79,7 @@
         }
         div.listMethod {
             display: inline-block;
-            width: 50px;
+            width: 90px;
             text-align: center;
         }
         div.price {
@@ -92,7 +94,7 @@
         }
         div.optionContainer {
             display: inline-block;
-            width: 120px;
+            width: 200px;
             border: 1px solid black;
             border-radius: 5px;
             text-align: center;
@@ -131,7 +133,7 @@
             margin-top: 10px;
             width: 500px;
         }
-        div.pagination span {
+        div.pagination a {
             margin: 0 5px;
             padding: 5px 10px;
             border: 1px solid #ccc;
@@ -146,73 +148,52 @@
 <body>
 <jsp:include page="../layout/title.jsp"/>
 <div class="option">
-    정렬 기준 : <div class="optionContainer"><div class="listMethod">가격순</div>|<div class="listMethod">거리순</div></div>
+    정렬 기준 : <div class="optionContainer"><div class="listMethod">가격 낮은순</div>|<div class="listMethod">가격 높은순</div></div>
 </div>
 <div class="container">
     <div class="menuPage">
-        <div class="menuList">
-            <div class="menu">
-                <div class="content text">
-                    <span class="foodName">이름</span>
-                    <span class="description">디테일</span>
+        <div class="menuList" style="height: 500px;">
+            <c:forEach var="dto" items="${list}">
+                <div class="menu" menuId=${dto.menuId} restaurantId=${dto.restaurantId}><div class="content text">
+                    <span class="foodName">${dto.name}</span>
+                    <span class="description">${dto.description}</span>
                     <div style="display: inline-block">
-                        <div class="price">가격</div>
+                        <div class="price">${dto.price}원</div>
                         <div class="review">리뷰</div>
                     </div>
                 </div>
-                <div class="content img">
-                    <img class="menuImg" src="${root}/s4.JPG">
+                    <c:if test="${dto.image!=''}">
+                        <div class="content img">
+                            <img class="menuImg" src="${dto.image}">
+                        </div>
+                    </c:if>
                 </div>
-            </div>
-            <hr>
-            <div class="menu">
-                <div class="content text">
-                    <span class="foodName">이름</span>
-                    <span class="description">디테일</span>
-                    <div style="display: inline-block">
-                        <div class="price">가격</div>
-                        <div class="review">리뷰</div>
-                    </div>
-                </div>
-                <div class="content img">
-                    <img class="menuImg" src="${root}/s4.JPG">
-                </div>
-            </div>
-            <hr>
-            <div class="menu">
-                <div class="content text">
-                    <span class="foodName">이름</span>
-                    <span class="description">디테일</span>
-                    <div style="display: inline-block">
-                        <div class="price">가격</div>
-                        <div class="review">리뷰</div>
-                    </div>
-                </div>
-                <div class="content img">
-                    <img class="menuImg" src="${root}/s4.JPG">
-                </div>
-            </div>
-            <hr>
-            <div class="menu">
-                <div class="content text">
-                    <span class="foodName">이름</span>
-                    <span class="description">디테일</span>
-                    <div style="display: inline-block">
-                        <div class="price">가격</div>
-                        <div class="review">리뷰</div>
-                    </div>
-                </div>
-                <div class="content img">
-                    <img class="menuImg" src="${root}/s4.JPG">
-                </div>
-            </div>
-            <hr>
+                <hr>
+            </c:forEach>
         </div>
         <div class="pagination">
-            <span>1</span>
-            <span>2</span>
-            <span>3</span>
-            <span>4</span>
+            <c:if test="${startPage>1}">
+                <li class="page-item">
+                    <a class="page-link" href="./list?pageNum=${startPage-1}">Prev</a>
+                </li>
+            </c:if>
+            <c:forEach var="pp" begin="${startPage}" end="${endPage}">
+                <c:if test="${pp==pageNum}">
+                    <li class="page-item active">
+                        <a class="page-link" href="./list?pageNum=${pp}">${pp}</a>
+                    </li>
+                </c:if>
+                <c:if test="${pp!=pageNum}">
+                    <li class="page-item">
+                        <a class="page-link" href="./list?pageNum=${pp}">${pp}</a>
+                    </li>
+                </c:if>
+            </c:forEach>
+            <c:if test="${endPage<totalPage}">
+                <li class="page-item">
+                    <a class="page-link" href="./list?pageNum=${endPage+1}">Next</a>
+                </li>
+            </c:if>
         </div>
     </div>
     <div class="restaurant">
@@ -229,6 +210,34 @@
             <span>메뉴</span>
         </div>
         <div class="menuList">
+            <div class="menu">
+                <div class="content text">
+                    <span class="foodName">이름</span>
+                    <span class="description">디테일</span>
+                    <div style="display: inline-block">
+                        <div class="price">가격</div>
+                        <div class="review">리뷰</div>
+                    </div>
+                </div>
+                <div class="content img">
+                    <img class="menuImg" src="${root}/s4.JPG">
+                </div>
+            </div>
+            <hr>
+            <div class="menu">
+                <div class="content text">
+                    <span class="foodName">이름</span>
+                    <span class="description">디테일</span>
+                    <div style="display: inline-block">
+                        <div class="price">가격</div>
+                        <div class="review">리뷰</div>
+                    </div>
+                </div>
+                <div class="content img">
+                    <img class="menuImg" src="${root}/s4.JPG">
+                </div>
+            </div>
+            <hr>
             <div class="menu">
                 <div class="content text">
                     <span class="foodName">이름</span>
