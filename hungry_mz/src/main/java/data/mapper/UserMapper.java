@@ -1,10 +1,9 @@
 package data.mapper;
 
-import java.util.List;
-
+import data.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 
-import data.dto.UserDto;
+import java.util.List;
 
 @Mapper
 public interface UserMapper {

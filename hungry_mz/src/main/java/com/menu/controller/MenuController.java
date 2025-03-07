@@ -16,6 +16,9 @@ public class MenuController {
     private final MenuService menuService;
     private final NcpObjectStorageService storageService;
     @GetMapping("/menu/list")
+    public String menuList(){
+        return "food/menuList";
+    }
     public List<MenuDto> getMenuListOrderByPriceAsc(){
         return menuService.getMenuListOrderByPriceAsc();
     }

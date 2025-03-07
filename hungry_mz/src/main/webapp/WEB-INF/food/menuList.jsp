@@ -54,7 +54,7 @@
             margin: 10px;
         }
         div.restaurant {
-            border: 1px solid black;
+            border: 1px solid black;`
             border-radius: 5px;
             position: relative;
             height: 550px;
