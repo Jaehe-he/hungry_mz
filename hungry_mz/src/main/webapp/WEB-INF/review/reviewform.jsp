@@ -31,6 +31,14 @@
     .rating span.active, .rating span:hover {
         color: #f5c518;
     }
+    
+    .reviewImg img{
+		width: 40px;
+	    height: 40px;
+		border: 1px solid black;
+		border-radius: 10px;
+			        } 
+        
     .reviewbtn {
         background-color: #28a745;
         color: white;
@@ -193,7 +201,7 @@
                  <div class="modal-footer">
                     
                     <div class="mt-3">
-                        <button type="submit" class="btn" id=btnreviewsave">리뷰 저장</button>
+                        <button type="submit" class="btn" id="btnreviewsave">리뷰 저장</button>
                     </div>
             </div>
         </div>

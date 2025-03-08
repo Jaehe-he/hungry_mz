@@ -48,7 +48,7 @@ public class ReviewController {
 	}
 	
 	@PostMapping("/addreview")
-	public void addReview(@RequestParam int restaurantId, @RequestParam String content,
+	public void addReview(@RequestParam int restaurantId, @RequestParam String reviewContent,
 			HttpSession session){
 		//로그인한 아이디
 		String username=(String)session.getAttribute("username");
@@ -56,7 +56,7 @@ public class ReviewController {
 		//클래스명.builder()로 시작하여 값 세팅 후 build() 호출하여 객체 생성
 		ReviewDto dto=ReviewDto.builder()
 				.restaurantId(restaurantId)
-				.reviewContent(content)
+				.reviewContent(reviewContent)
 				.username(username)
 				.reviewImg(uploadFilename)
 				.build();

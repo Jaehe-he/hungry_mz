@@ -8,7 +8,7 @@ import data.dto.ReviewDto;
 
 @Mapper
 public interface ReviewMapper {
-	public void insertReple(ReviewDto dto);
+	public void insertReview(ReviewDto dto);
 	public List<ReviewDto> getSelectReviews(int restaurantId);
 	public ReviewDto getSelectData(int reviewId);
 	public void deleteReview(int reviewId);

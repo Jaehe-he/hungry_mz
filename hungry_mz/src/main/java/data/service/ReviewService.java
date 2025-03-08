@@ -14,7 +14,7 @@ public class ReviewService {
 	ReviewMapper reviewMapper;
 	
 	public void insertReview(ReviewDto dto) {
-		reviewMapper.insertReple(dto);
+		reviewMapper.insertReview(dto);
 	}
 	
 	public List<ReviewDto> getSelectReviews(int restaurantId){
