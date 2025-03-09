@@ -3,10 +3,7 @@ package user.controller;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.naver.storage.NcpObjectStorageService;
@@ -66,6 +63,7 @@ public class ReviewController {
 		}
 	
 	@GetMapping("/reviewlist")
+	@ResponseBody
 	public List<ReviewDto> getReviewList(@RequestParam int restaurantId){
 		System.out.println("restaurantId="+restaurantId);
 		List<ReviewDto> rlist = reviewService.getSelectReviews(restaurantId);

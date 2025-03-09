@@ -29,4 +29,7 @@ public class RestaurantService {
     public int getTotalCount(){
         return mapper.getTotalCount();
     }
+    public List<RestaurantDto> getPagingListOrderByIdAsc(int start, int perpage){
+        return mapper.getPagingListOrderByIdAsc(start, perpage);
+    }
 }

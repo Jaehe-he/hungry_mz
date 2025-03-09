@@ -499,7 +499,8 @@
         $.ajax({
             type: "get",
             dataType: "json",
-            url: "/review/reviewlist" + restaurantId,
+            url: "/review/reviewlist",
+            data: {"restaurantId": restaurantId},
             success: function (res) {
                 let s = "";
                 $.each(res, function (idx, ele) {
@@ -514,7 +515,7 @@
                     </div>
                     `;
                 });
-                $("div.modal-body").html(s);
+                $("div.reviewList").html(s);
             }
         });
     });

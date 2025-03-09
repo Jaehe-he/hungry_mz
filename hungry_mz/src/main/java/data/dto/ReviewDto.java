@@ -25,7 +25,7 @@ public class ReviewDto {
 	private String reviewImg;
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul")
 	private Timestamp writeDate;
-	
+	private int star;
 	private int user_id;
 	private MultipartFile file;
 	private String nickname;

@@ -7,7 +7,7 @@
 	</insert>
 
 	<select id="getSelectReviews" parameterType="int" resultType="ReviewDto">
-		select * from review where restaurant_id=#{restaurant_id} order by review_id asc
+		select review_id as reviewId, restaurant_id as restaurantId, menu_id as menuId, username, review_content as reviewContent, review_img as reviewImg, star, write_date from review where restaurant_id=#{restaurant_id} order by review_id asc
 	</select>
 
 	<select id="getSelectData" parameterType="int" resultType="ReviewDto">
