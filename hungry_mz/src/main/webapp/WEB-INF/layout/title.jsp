@@ -105,6 +105,9 @@
             <a href="${root}/restaurant/list">식당 목록</a>
         </li>
         <li>
+            <a href="${root}/menu/list?isPriceDesc=false">메뉴 목록</a>
+        </li>
+        <li>
         	<c:if test="${sessionScope.loginstatus==null}">
             	<a href="${root}/member/form">회원가입</a>
             </c:if>
