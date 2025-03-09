@@ -7,10 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title>502 jsp study</title>
-	<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Gaegu&family=Jua&family=Nanum+Pen+Script&family=Playwrite+AU+SA:wght@100..400&family=Single+Day&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Gaegu&family=Jua&family=Nanum+Pen+Script&family=Playwrite+AU+SA:wght@100..400&family=Single+Day&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <style>
         body *{
             font-family: 'Jua';
@@ -48,7 +48,7 @@
 			 opacity: 0.6;
 			}
         
-        #button1{
+        .category-btn{
         	border-radius : 30px;
         	padding : 0px 10px;
         	margin-right : 10px;
@@ -154,12 +154,25 @@
 			  margin-bottom: 25px;
 			  opacity: 0.6;
 			}
-     </style>
+</style>
+<script>
+    $(document).ready(function () {
+        $(".category-btn").click(function () {
+            let category = $(this).val();  // 버튼의 value값 가져오기
+            $(".restaurant-list").each(function () {
+                let itemType = $(this).attr("data-type"); // 각 리스트의 data-type 가져오기
+                if (category === "All" || itemType === category) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+    });
+</script>
 </head>
 <body>
 <jsp:include page="../layout/title.jsp"/>
-<div>
-
 	<div class="main">
 		<div class="intro">
 				<img src="https://blog.kakaocdn.net/dn/0xSgP/btsMFFnh92s/2Ig101ZBO5DA7z7SM666r0/img.gif">
@@ -169,15 +182,16 @@
 				
 				<h5> 음식 종류 </h5>
 				<div class="category">
-					<input type="button" id="button1" name="button" value="All" data-filter="*">
-					<input type="button" id="button1" name="button" value="한식" data-filter="한식">
-					<input type="button" id="button1" name="button" value="일식" data-filter="일식">
-					<input type="button" id="button1" name="button" value="양식" data-filter="양식">
-					<input type="button" id="button1" name="button" value="중식" data-filter="중식">
-					<input type="button" id="button1" name="button" value="고기" data-filter="고기">
-					<input type="button" id="button1" name="button" value="분식" data-filter="분식">
-					<input type="button" id="button1" name="button" value="기타" data-filter="기타">
+				    <input type="button" class="category-btn" name="button" value="All">
+				    <input type="button" class="category-btn" name="button" value="한식">
+				    <input type="button" class="category-btn" name="button" value="일식">
+				    <input type="button" class="category-btn" name="button" value="양식">
+				    <input type="button" class="category-btn" name="button" value="중식">
+				    <input type="button" class="category-btn" name="button" value="고기">
+				    <input type="button" class="category-btn" name="button" value="분식">
+				    <input type="button" class="category-btn" name="button" value="기타">
 				</div>
+
 			</div>
 		</div>
 	
@@ -368,7 +382,5 @@
       </div>
   	</div>
   </div>
-	
-</div>
 </body>
 </html>

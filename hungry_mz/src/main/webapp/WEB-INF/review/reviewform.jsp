@@ -139,55 +139,58 @@
                     		let form=new FormData();
                     		form.append("upload", e.target.files[0]);
                     		$.ajax({
-                    			type:"post",
-                    			dataType:"text",
-                    			data:form,
-                    			processData:false,
-                    			contentType:false,
-                    			url:"./reviewupload",
-                    			success:function(res){
-                    				$(".reviewImg").html(`
-                    					<img src="${naverurl}/review/\${res}">
-                    					<i class="bi bi-x-circle-fill reviewphotodel" fname="\${res}"></i>
-                    					`);
-                    			}
+                    		    type: "POST",
+                    		    dataType: "text",
+                    		    data: form,
+                    		    processData: false,
+                    		    contentType: false,
+                    		    url: "./reviewupload",
+                    		    success: function(res) {
+                    		        $(".reviewImg").html(`
+                    		            <img src="${naverurl}/review/${res}">
+                    		            <i class="bi bi-x-circle-fill reviewphotodel" fname="${res}"></i>
+                    		        `);
+                    		    }
                     		});
-                    	});
+
                     	
-                    	$(document).on("click", ".reviewphotodel",function(){
-                    		let close=$(this); //x아이콘
-                    		let fname=close.attr("fname");
-                    		$.ajax({
-                    			type:"get",
-                    			dataType:"text",
-                    			data:{"fname": fname},
-                    			url:"./reviewphotodel",
-                    			success:function(){
-                    				close.prev().remove();
-                    				close.remove();
-                    			}
-                    		});
+                    	$(document).on("click", ".reviewphotodel", function() {
+                    	    let close = $(this); // x아이콘
+                    	    let fname = close.attr("fname");
+                    	    $.ajax({
+                    	        type: "DELETE", // Change from GET to DELETE
+                    	        dataType: "text",
+                    	        data: { "fname": fname },
+                    	        url: "./reviewphotodel",
+                    	        success: function() {
+                    	            close.prev().remove();
+                    	            close.remove();
+                    	        }
+                    	    });
                     	});
+
                     	
                     	//리뷰 저장
                     	$("#btnreviewsave").click(function(){
                     		let restaurantId='${dto.restaurantId}';
                     		let c=$("#reviewContent").val();
                     		
-                    		$.ajax({
-                    			type:"post",
-                    			dataType:"text",
-                    			data:{"restaurantId":restaurantId, "reviewContent" : c},
-                    			url:"./addreview",
-                    			success:function(){
-                    				$("#reviewContent").val("");
-                    				$(".reviewImg").html("");
-                    				
-                    				alert("댓글 저장 성공");
-                    				reviewlist();
-                    			}
-                    		});
-                    		
+                    	    $.ajax({
+                    	        type: "POST",
+                    	        url: "/review/addreview",
+                    	        data: {
+                    	            restaurantId: restaurantId,
+                    	            reviewContent: reviewContent
+                    	        },
+                    	        success: function(response) {
+                    	            alert("리뷰가 저장되었습니다.");
+                    	        },
+                    	        error: function(xhr, status, error) {
+                    	            console.error("리뷰 저장 실패", status, error);
+                    	            alert("리뷰 저장에 실패했습니다.");
+                    	        }
+                    	    });
+                    	});
                     	});
                     
                     </script>

@@ -88,8 +88,9 @@
 <div style="margin: 10px;">
     <h2 class="alert alert-success">
         <a href="${root}/" style="color: black">
-            <img src="${root}/s4.jpg" width="50">
-            배고픈 MZ
+<%--             <img src="${root}/s4.jpg" width="50"> --%>
+		<img src="https://r2.jjalbot.com/2023/03/97QEzlfSVp.jpeg" width="70">
+            &nbsp;&nbsp; 배고픈 MZ
         </a>
         <span style="margin-left: 300px; font-size: 15px">
         <c:if test="${sessionScope.loginstatus!=null}">

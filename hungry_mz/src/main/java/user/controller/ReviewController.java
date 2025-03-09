@@ -2,7 +2,9 @@ package user.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,39 +33,40 @@ public class ReviewController {
 	private String uploadFilename; //댓글에서 업로드한 파일명;
 	
 	@PostMapping("/reviewupload")
-	public String upload(@RequestParam("upload") MultipartFile upload) {
-		//사진 다시 올릴 경우 이전 사진 삭제
-		if(uploadFilename !=null) {
-			storageService.deleteFile(bucketName, "review", uploadFilename);
-		}
-		
-		uploadFilename=storageService.uploadFile(bucketName, "review", upload);
-		return uploadFilename;
+	public ResponseEntity<String> upload(@RequestParam("upload") MultipartFile upload) {
+	    // 사진 다시 올릴 경우 이전 사진 삭제
+	    if (uploadFilename != null) {
+	        storageService.deleteFile(bucketName, "review", uploadFilename);
+	    }
+
+	    uploadFilename = storageService.uploadFile(bucketName, "review", upload);
+	    return ResponseEntity.ok(uploadFilename); // Return the filename as a response
 	}
-	
-	@GetMapping("/reviewphotodel")
+
+	@DeleteMapping("/reviewphotodel")
 	public void photoDel(@RequestParam String fname) {
-		storageService.deleteFile(uploadFilename, "review", fname);
-		uploadFilename=null;
+	    storageService.deleteFile(bucketName, "review", fname);
+	    uploadFilename = null;
 	}
+
 	
 	@PostMapping("/addreview")
-	public void addReview(@RequestParam int restaurantId, @RequestParam String reviewContent,
-			HttpSession session){
-		//로그인한 아이디
-		String username=(String)session.getAttribute("username");
-		
-		//클래스명.builder()로 시작하여 값 세팅 후 build() 호출하여 객체 생성
-		ReviewDto dto=ReviewDto.builder()
-				.restaurantId(restaurantId)
-				.reviewContent(reviewContent)
-				.username(username)
-				.reviewImg(uploadFilename)
-				.build();
-		
-		reviewService.insertReview(dto);
-		uploadFilename=null;
-		}
+	public void addReview(@RequestParam int restaurantId, @RequestParam String reviewContent, HttpSession session){
+	    // 로그인한 아이디
+	    String username = (String) session.getAttribute("username");
+
+	    // ReviewDto 객체 생성
+	    ReviewDto dto = ReviewDto.builder()
+	            .restaurantId(restaurantId)
+	            .reviewContent(reviewContent)
+	            .username(username)
+	            .reviewImg(uploadFilename)
+	            .build();
+
+	    reviewService.insertReview(dto);
+	    uploadFilename = null;
+	}
+
 	
 	@GetMapping("/reviewlist")
 	public List<ReviewDto> getReviewList(@RequestParam int restaurantId){

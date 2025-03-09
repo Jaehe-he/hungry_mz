@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 public class ReviewDto {
 	private int reviewId;
 	private int restaurantId;
+	private int menuId;
 	private String username;
 	private String reviewContent;
 	private String reviewImg;
