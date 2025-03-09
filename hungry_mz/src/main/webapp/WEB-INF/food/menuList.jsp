@@ -164,31 +164,17 @@
         div.menuPage {
             margin: 1%;
         }
-        div.clicked {
-            background-color: lightgray;
-            border-radius: 10px;
-        }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 </head>
-<script>
-    let isPriceDesc = false;
-</script>
 <body>
 <jsp:include page="../layout/title.jsp"/>
 <div class="option">
     정렬 기준 :
     <div class="optionContainer">
-        <c:if test="${isPriceDesc}">
-            <div class="listMethod"><a href="./list?pageNum=${pageNum}&isPriceDesc=false">가격 낮은순</a></div>
-            |
-            <div class="listMethod clicked"><a href="./list?pageNum=${pageNum}&isPriceDesc=true">가격 높은순</a></div>
-        </c:if>
-        <c:if test="${!isPriceDesc}">
-            <div class="listMethod clicked"><a href="./list?pageNum=${pageNum}&isPriceDesc=false">가격 낮은순</a></div>
-            |
-            <div class="listMethod"><a href="./list?pageNum=${pageNum}&isPriceDesc=true">가격 높은순</a></div>
-        </c:if>
+        <div class="listMethod">가격 낮은순</div>
+        |
+        <div class="listMethod">가격 높은순</div>
     </div>
 </div>
 <div class="container">
@@ -216,24 +202,24 @@
         <div class="pagination">
             <c:if test="${startPage>1}">
                 <li class="page-item">
-                    <a class="page-link" href="./list?pageNum=${startPage-1}&isPriceDesc=${isPriceDesc}">Prev</a>
+                    <a class="page-link" href="./list?pageNum=${startPage-1}">Prev</a>
                 </li>
             </c:if>
             <c:forEach var="pp" begin="${startPage}" end="${endPage}">
                 <c:if test="${pp==pageNum}">
                     <li class="page-item active">
-                        <a class="page-link" href="./list?pageNum=${pp}&isPriceDesc=${isPriceDesc}">${pp}</a>
+                        <a class="page-link" href="./list?pageNum=${pp}">${pp}</a>
                     </li>
                 </c:if>
                 <c:if test="${pp!=pageNum}">
                     <li class="page-item">
-                        <a class="page-link" href="./list?pageNum=${pp}&isPriceDesc=${isPriceDesc}">${pp}</a>
+                        <a class="page-link" href="./list?pageNum=${pp}">${pp}</a>
                     </li>
                 </c:if>
             </c:forEach>
             <c:if test="${endPage<totalPage}">
                 <li class="page-item">
-                    <a class="page-link" href="./list?pageNum=${endPage+1}&isPriceDesc=${isPriceDesc}">Next</a>
+                    <a class="page-link" href="./list?pageNum=${endPage+1}">Next</a>
                 </li>
             </c:if>
         </div>
