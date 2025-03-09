@@ -31,10 +31,16 @@ public class MenuService {
     public List<MenuDto> getMenuListOrderByPriceAsc(){
         return mapper.getMenuListOrderByPriceAsc();
     }
+    public List<MenuDto> getMenuListOrderByPriceDesc(){
+        return mapper.getMenuListOrderByPriceDesc();
+    }
     public int getTotalCount(){
         return mapper.getTotalCount();
     }
-    public List<MenuDto> getPagingList(int start, int perpage){
-        return mapper.getPagingList(start, perpage);
+    public List<MenuDto> getPagingListOrderByPriceDesc(int start, int perpage){
+        return mapper.getPagingListOrderByPriceDesc(start, perpage);
+    }
+    public List<MenuDto> getPagingListOrderByPriceAsc(int start, int perpage){
+        return mapper.getPagingListOrderByPriceAsc(start, perpage);
     }
 }
