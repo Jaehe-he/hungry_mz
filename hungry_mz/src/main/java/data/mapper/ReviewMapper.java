@@ -12,6 +12,6 @@ public interface ReviewMapper {
 	public List<ReviewDto> getSelectReviews(int restaurantId);
 	public ReviewDto getSelectData(int reviewId);
 	public void deleteReview(int reviewId);
-	
-	
+	public int getRestaurantReviewCount(int restaurantId);
+	public int getMenuReviewCount(int menuId);
 }

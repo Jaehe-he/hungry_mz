@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="data.mapper.BoardRepleMapper">
+<mapper namespace="data.mapper.ReviewMapper">
 	<insert id="insertReview" parameterType="ReviewDto">
 		insert into review (review_id, restaurant_id, username, review_content, review_img, write_date) values
 		(#{review_id}, #{restaurant_id}, #{username}, #{review_content}, #{review_img}, now())
@@ -15,6 +15,12 @@
 	</select>
 
 	<delete id="deleteReview" parameterType="int">
-		delete from review where review_id=#{review_id}
+		delete from review where reviewId=#{review_id}
 	</delete>
+	<select id="getRestaurantReviewCount" parameterType="int" resultType="int">
+		select count(*) from review where restaurant_id=#{restaurantId}
+	</select>
+	<select id="getMenuReviewCount" parameterType="int" resultType="int">
+		select count(*) from review where menu_id=#{menuId}
+	</select>
 </mapper>

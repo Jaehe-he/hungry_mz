@@ -251,6 +251,7 @@
                         <div style="display: inline-block">
                             <div class="price">${dto.price}원</div>
                             <div class="reviewButton">리뷰</div>
+                            <span class="menuReviewCount">${dto.reviewCount}</span>
                         </div>
                     </div>
                     <c:if test="${dto.image!=''}">
@@ -297,6 +298,7 @@
                     $("div.restaurant").attr("restaurantId", res.restaurantId);
                     $("span.title").text(res.title);
                     $("img.thumbnail").attr("src", res.image);
+                    $("span#restaurantReviewCount").text(res.reviewCount);
                     $.ajax({
                         type: "get",
                         dataType: "json",
@@ -308,6 +310,7 @@
                                 let price = ele.price;
                                 let image = ele.image;
                                 let description = ele.description;
+                                let reviewCount = ele.reviewCount;
                                 s += `
                                 <div class="menu">
                                     <div class="content text">
@@ -316,6 +319,7 @@
                                         <div style="display: inline-block">
                                             <div class="price">`+price+`원</div>
                                             <button type="button" class="review" data-bs-toggle="modal" data-bs-target="#reviewModal">리뷰</button>
+                                            <span id="restaurantReviewCount">` + reviewCount + `</span>
                                         </div>
                                     </div>
                                 `;
@@ -336,7 +340,6 @@
             });
         });
         $("div.menu").click(function () {
-
             let restaurantId = $(this).attr("restaurantId");
             $.ajax({
                 type: "get",
@@ -346,6 +349,7 @@
                     $("div.restaurant").attr("restaurantId", restaurantId);
                     $("span.title").text(res.title);
                     $("img.thumbnail").attr("src", res.image);
+                    $("span#restaurantReviewCount").text(res.reviewCount);
                     $.ajax({
                         type: "get",
                         dataType: "json",
@@ -357,6 +361,7 @@
                                 let price = ele.price;
                                 let image = ele.image;
                                 let description = ele.description;
+                                let reviewCount = ele.reviewCount;
                                 s += `
                                 <div class="menu">
                                     <div class="content text">
@@ -365,6 +370,7 @@
                                         <div style="display: inline-block">
                                             <div class="price">`+price+`원</div>
                                             <button type="button" class="review" data-bs-toggle="modal" data-bs-target="#restaurantModal">리뷰</button>
+                                            <span class="reviewCount">` + reviewCount + `</span>
                                         </div>
                                     </div>
                                 `;
@@ -394,7 +400,8 @@
             <span class="title">식당 이름</span>
         </div>
         <div class="info">
-            <button type="button" class="review" data-bs-toggle="modal" data-bs-target="#reviewModal">리뷰</button><span>n 개</span>
+            <button type="button" class="review" data-bs-toggle="modal" data-bs-target="#reviewModal">리뷰</button>
+            <span id="restaurantReviewCount">n</span>
         </div>
         <div class="info">
             <span>메뉴</span>

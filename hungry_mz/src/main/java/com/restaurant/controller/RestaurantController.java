@@ -2,6 +2,7 @@ package com.restaurant.controller;
 
 import com.restaurant.service.RestaurantService;
 import data.dto.RestaurantDto;
+import data.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequestMapping("/restaurant")
 public class RestaurantController {
     private final RestaurantService restaurantService;
+    private final ReviewService reviewService;
     @GetMapping("/")
     @ResponseBody
     public List<RestaurantDto>getRestaurantList(){
@@ -24,7 +26,10 @@ public class RestaurantController {
     @ResponseBody
     @GetMapping("/{restaurantId}")
     public RestaurantDto getRestaurantById(@PathVariable int restaurantId){
-        return restaurantService.getRestaurantById(restaurantId);
+        RestaurantDto dto = restaurantService.getRestaurantById(restaurantId);
+        int reviewCount = reviewService.getRestaurantReviewCount(restaurantId);
+        dto.setReviewCount(reviewCount);
+        return dto;
     }
     @ResponseBody
     @GetMapping("/random")
