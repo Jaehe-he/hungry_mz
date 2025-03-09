@@ -99,7 +99,7 @@
             display: inline-block;
         }
 
-        div.review {
+        div.reviewButton {
             width: 30%;
             font-size: 0.9em;
             display: inline-block;
@@ -164,9 +164,58 @@
         div.menuPage {
             margin: 1%;
         }
+        div.review {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+        }
+        div.reviewContent {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px;
+            border: 1px solid gray;
+            border-radius: 5px;
+            width: 350px;
+        }
+        button.review {
+            background: white;
+            border: none;
+        }
+        div.reviewImg {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+        }
+        div.reviewImg > img {
+            position: relative;
+            right: 0%;
+            width: 100px;
+            height: 100px;
+        }
+        .modal-body {
+            position: relative;
+        }
+
+        .writeReview {
+            width: 100%;
+            position: absolute;
+            display: flex;
+            justify-content: space-between; /* 좌우로 정렬 */
+            align-items: center; /* 수직 중앙 정렬 */
+            margin: 10px 0;
+        }
         div.clicked {
             background-color: lightgray;
             border-radius: 10px;
+        }
+        div.restaurantName {
+            margin-left: 20px;
+        }
+        div.reviewList {
+            margin-top: 10px;
+            width: 100%;
+            margin-top: 60px;
         }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
@@ -195,13 +244,13 @@
     <div class="menuPage">
         <div class="menuList" style="height: 500px;">
             <c:forEach var="dto" items="${list}">
-                <div class="menu" menuId=${dto.menuId} restaurantId=${dto.restaurantId}>
+                <div class="menu" menuId=${dto.menuId} restaurantId="${dto.restaurantId}">
                     <div class="content text">
                         <span class="foodName">${dto.name}</span>
                         <span class="description">${dto.description}</span>
                         <div style="display: inline-block">
                             <div class="price">${dto.price}원</div>
-                            <div class="review">리뷰</div>
+                            <div class="reviewButton">리뷰</div>
                         </div>
                     </div>
                     <c:if test="${dto.image!=''}">
@@ -245,6 +294,7 @@
                 dataType: "json",
                 url: "/restaurant/random",
                 success: function (res) {
+                    $("div.restaurant").attr("restaurantId", res.restaurantId);
                     $("span.title").text(res.title);
                     $("img.thumbnail").attr("src", res.image);
                     $.ajax({
@@ -265,7 +315,7 @@
                                         <span class="description">`+description+`</span>
                                         <div style="display: inline-block">
                                             <div class="price">`+price+`원</div>
-                                            <div class="review">리뷰</div>
+                                            <button type="button" class="review" data-bs-toggle="modal" data-bs-target="#reviewModal">리뷰</button>
                                         </div>
                                     </div>
                                 `;
@@ -286,17 +336,20 @@
             });
         });
         $("div.menu").click(function () {
+
+            let restaurantId = $(this).attr("restaurantId");
             $.ajax({
                 type: "get",
                 dataType: "json",
-                url: "/restaurant/" + $(this).attr("restaurantId"),
+                url: "/restaurant/" + restaurantId,
                 success: function (res) {
+                    $("div.restaurant").attr("restaurantId", restaurantId);
                     $("span.title").text(res.title);
                     $("img.thumbnail").attr("src", res.image);
                     $.ajax({
                         type: "get",
                         dataType: "json",
-                        url: "/menu/restaurant/" + $(this).attr("restaurantId"),
+                        url: "/menu/restaurant/" + restaurantId,
                         success: function (res) {
                             let s = "";
                             $.each(res, function (idx, ele) {
@@ -311,7 +364,7 @@
                                         <span class="description">`+description+`</span>
                                         <div style="display: inline-block">
                                             <div class="price">`+price+`원</div>
-                                            <div class="review">리뷰</div>
+                                            <button type="button" class="review" data-bs-toggle="modal" data-bs-target="#restaurantModal">리뷰</button>
                                         </div>
                                     </div>
                                 `;
@@ -332,7 +385,7 @@
             });
         });
     </script>
-    <div class="restaurant">
+    <div class="restaurant" restaurantId="">
         <div class="thumbnail">
             <img class="thumbnail"
                  src="https://search.pstatic.net/common/?src=https%3A%2F%2Fnaverbooking-phinf.pstatic.net%2F20240405_160%2F17123206563219hooW_JPEG%2F%25B6%25BC%25BC%25A6.jpg">
@@ -341,7 +394,7 @@
             <span class="title">식당 이름</span>
         </div>
         <div class="info">
-            리뷰&nbsp;<span>n 개</span>
+            <button type="button" class="review" data-bs-toggle="modal" data-bs-target="#reviewModal">리뷰</button><span>n 개</span>
         </div>
         <div class="info">
             <span>메뉴</span>
@@ -354,7 +407,7 @@
                     <span class="description">디테일</span>
                     <div style="display: inline-block">
                         <div class="price">가격</div>
-                        <div class="review">리뷰</div>
+                        <div class="reviewButton">리뷰</div>
                         <div class="reviewadd"></div>
                     </div>
                 </div>
@@ -369,7 +422,7 @@
                     <span class="description">디테일</span>
                     <div style="display: inline-block">
                         <div class="price">가격</div>
-                        <div class="review">리뷰</div>
+                        <div class="reviewButton">리뷰</div>
                     </div>
                 </div>
                 <div class="content img">
@@ -383,7 +436,7 @@
                     <span class="description">디테일</span>
                     <div style="display: inline-block">
                         <div class="price">가격</div>
-                        <div class="review">리뷰</div>
+                        <div class="reviewButton">리뷰</div>
                     </div>
                 </div>
                 <div class="content img">
@@ -394,6 +447,71 @@
         </div>
     </div>
 </div>
+<!-- The Modal -->
+<div class="modal" id="reviewModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">리뷰목록</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="writeReview">
+                    <div class="restaurantName">
+                        <h2>식당이름</h2>
+                    </div>
+                    <button style="margin-right: 20px;" class="btn btn-success">리뷰 작성</button>
+                </div>
+                <div class="reviewList">
+                    <div class="review">
+                        <div class="reviewContent">
+                            <span>닉네임 : `+nickname+`</span>
+                            <span>별점 : `+star+`</span>
+                            <span>내용 : `+content+`</span>
+                        </div>
+                        <div class="reviewImg">
+                            <img src="${root}/s4.JPG">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).on("click", "button.review", function () {
+        let restaurantId = $("div.restaurant").attr("restaurantId");
+        $.ajax({
+            type: "get",
+            dataType: "json",
+            url: "/review/reviewlist" + restaurantId,
+            success: function (res) {
+                let s = "";
+                $.each(res, function (idx, ele) {
+                    let nickname = ele.nickname;
+                    let content = ele.content;
+                    let star = ele.star;
+                    s += `
+                    <div class="review">
+                        <span>닉네임 : `+nickname+`</span>
+                        <span>별점 : `+star+`</span>
+                        <span>내용 : `+content+`</span>
+                    </div>
+                    `;
+                });
+                $("div.modal-body").html(s);
+            }
+        });
+    });
+</script>
 </body>
 </html>
 
