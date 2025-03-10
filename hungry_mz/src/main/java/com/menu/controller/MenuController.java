@@ -22,8 +22,10 @@ public class MenuController {
     private final ReviewService reviewService;
 
     @GetMapping("/menu/list")
-    public String menuList(@RequestParam(value="pageNum", defaultValue = "1") int pageNum, Model model, @RequestParam String orderMethod){
-        System.out.println("orderMethod : "+orderMethod);
+    public String menuList(@RequestParam(value="pageNum", defaultValue = "1") int pageNum, Model model, @RequestParam(required = false) Integer restaurantId, @RequestParam(required = false) String orderMethod){
+        if(orderMethod==null){
+            orderMethod="priceAsc";
+        }
         if (pageNum==0)
             pageNum=1;
         //페이징 처리
@@ -73,7 +75,8 @@ public class MenuController {
         model.addAttribute("pageNum", pageNum);
         model.addAttribute("totalPage", totalPage);
         model.addAttribute("orderMethod", orderMethod);
-
+        model.addAttribute("restaurantId", restaurantId);
+        System.out.println(restaurantId);
         return "food/menuList";
     }
     public List<MenuDto> getMenuListOrderByPriceAsc(){

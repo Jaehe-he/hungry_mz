@@ -165,11 +165,13 @@
         div.menuPage {
             margin: 1%;
         }
+
         div.review {
             width: 100%;
             display: flex;
             flex-direction: column;
         }
+
         div.reviewContent {
             display: flex;
             flex-direction: column;
@@ -179,21 +181,25 @@
             border-radius: 5px;
             width: 350px;
         }
+
         button.review {
             background: white;
             border: none;
         }
+
         div.reviewImg {
             display: flex;
             justify-content: center;
             padding: 10px;
         }
+
         div.reviewImg > img {
             position: relative;
             right: 0%;
             width: 100px;
             height: 100px;
         }
+
         .modal-body {
             position: relative;
         }
@@ -206,13 +212,16 @@
             align-items: center; /* 수직 중앙 정렬 */
             margin: 10px 0;
         }
+
         div.clicked {
             background-color: lightgray;
             border-radius: 10px;
         }
+
         div.restaurantName {
             margin-left: 20px;
         }
+
         div.reviewList {
             margin-top: 10px;
             width: 100%;
@@ -224,6 +233,7 @@
 </head>
 <script>
     let orderMethod = 'priceDesc';
+    let restaurantId;
 </script>
 <body>
 <jsp:include page="../layout/title.jsp"/>
@@ -232,7 +242,8 @@
     <div class="optionContainer">
         <div class="listMethod" id="priceDesc"><a href="./list?pageNum=${pageNum}&orderMethod=priceAsc">가격 낮은순</a></div>
         |
-        <div class="listMethod clicked" id="priceAsc"><a href="./list?pageNum=${pageNum}&orderMethod=priceDesc">가격 높은순</a></div>
+        <div class="listMethod clicked" id="priceAsc"><a href="./list?pageNum=${pageNum}&orderMethod=priceDesc">가격
+            높은순</a></div>
         |
         <div class="listMethod" id="starDesc"><a href="./list?pageNum=${pageNum}&orderMethod=starDesc">별점순</a></div>
         <c:if test="${orderMethod == 'priceAsc'}">
@@ -305,6 +316,7 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
+            <c:if test="${restaurantId==null}">
             $.ajax({
                 type: "get",
                 dataType: "json",
@@ -329,23 +341,23 @@
                                 s += `
                                 <div class="menu">
                                     <div class="content text">
-                                        <span class="foodName">`+name+`</span>
-                                        <span class="description">`+description+`</span>
+                                        <span class="foodName">` + name + `</span>
+                                        <span class="description">` + description + `</span>
                                         <div style="display: inline-block">
-                                            <div class="price">`+price+`원</div>
+                                            <div class="price">` + price + `원</div>
                                             <button type="button" class="review" data-bs-toggle="modal" data-bs-target="#reviewModal">리뷰</button>
                                             <span id="restaurantReviewCount">` + reviewCount + `</span>
                                         </div>
                                     </div>
                                 `;
-                                if(image!=""){
-                                    s+=`
+                                if (image != "") {
+                                    s += `
                                     <div class="content img">
-                                        <img class="menuImg" src="`+image+`">
+                                        <img class="menuImg" src="` + image + `">
                                     </div>
                                     `;
                                 }
-                                s+=`</div>
+                                s += `</div>
                                 <hr>`;
                                 $("div.restaurant div.menuList").html(s);
                             });
@@ -353,6 +365,59 @@
                     });
                 }
             });
+            </c:if>
+            <c:if test="${restaurantId!=null}">
+            restaurantId = ${restaurantId};
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/restaurant/"+restaurantId,
+                success: function (res) {
+                    $("div.restaurant").attr("restaurantId", res.restaurantId);
+                    $("span.title").text(res.title);
+                    $("img.thumbnail").attr("src", res.image);
+                    $("span#restaurantReviewCount").text(res.reviewCount);
+                    $.ajax({
+                        type: "get",
+                        dataType: "json",
+                        url: "/menu/restaurant/" + res.restaurantId,
+                        success: function (res) {
+                            let s = "";
+                            $.each(res, function (idx, ele) {
+                                let name = ele.name;
+                                let price = ele.price;
+                                let image = ele.image;
+                                let description = ele.description;
+                                let reviewCount = ele.reviewCount;
+                                s += `
+                                <div class="menu">
+                                    <div class="content text">
+                                        <span class="foodName">` + name + `</span>
+                                        <span class="description">` + description + `</span>
+                                        <div style="display: inline-block">
+                                            <div class="price">` + price + `원</div>
+                                            <button type="button" class="review" data-bs-toggle="modal" data-bs-target="#reviewModal">리뷰</button>
+                                            <span id="restaurantReviewCount">` + reviewCount + `</span>
+                                        </div>
+                                    </div>
+                                `;
+                                if (image != "") {
+                                    s += `
+                                    <div class="content img">
+                                        <img class="menuImg" src="` + image + `">
+                                    </div>
+                                    `;
+                                }
+                                s += `</div>
+                                <hr>`;
+                                $("div.restaurant div.menuList").html(s);
+                            });
+                        }
+                    });
+                }
+            });
+            </c:if>
+
         });
         $("div.menu").click(function () {
             let restaurantId = $(this).attr("restaurantId");
@@ -381,23 +446,23 @@
                                 s += `
                                 <div class="menu">
                                     <div class="content text">
-                                        <span class="foodName">`+name+`</span>
-                                        <span class="description">`+description+`</span>
+                                        <span class="foodName">` + name + `</span>
+                                        <span class="description">` + description + `</span>
                                         <div style="display: inline-block">
-                                            <div class="price">`+price+`원</div>
+                                            <div class="price">` + price + `원</div>
                                             <button type="button" class="review" data-bs-toggle="modal" data-bs-target="#restaurantModal">리뷰</button>
                                             <span class="reviewCount">` + reviewCount + `</span>
                                         </div>
                                     </div>
                                 `;
-                                if(image!=""){
-                                    s+=`
+                                if (image != "") {
+                                    s += `
                                     <div class="content img">
-                                        <img class="menuImg" src="`+image+`">
+                                        <img class="menuImg" src="` + image + `">
                                     </div>
                                     `;
                                 }
-                                s+=`</div>
+                                s += `</div>
                                 <hr>`;
                                 $("div.restaurant div.menuList").html(s);
                             });
@@ -524,25 +589,25 @@
                     let content = ele.reviewContent;
                     let star = ele.star;
                     let image = ele.reviewImg;
-                    let stars="";
-                    for(let i=0; i<5; i++){
-                        if(star>0){
-                            stars+='<i class="bi bi-star-fill"></i>';
+                    let stars = "";
+                    for (let i = 0; i < 5; i++) {
+                        if (star > 0) {
+                            stars += '<i class="bi bi-star-fill"></i>';
                             star--;
-                        }else{
-                            stars+=`<i class="bi bi-star"></i>`
+                        } else {
+                            stars += `<i class="bi bi-star"></i>`
                         }
                     }
-                    if(image!=null){
-                        s+=`<div class="review">
-                        <img class="reviewImg" src="`+ image +`">
+                    if (image != null) {
+                        s += `<div class="review">
+                        <img class="reviewImg" src="` + image + `">
                         `;
                     }
                     s += `
-                        <span>`+nickname+`</span>
-                        <span>`+stars+`</span>
-                        <span>`+content+`</span>`;
-                    s+=`
+                        <span>` + nickname + `</span>
+                        <span>` + stars + `</span>
+                        <span>` + content + `</span>`;
+                    s += `
                     </div>
                     <hr>
                     `;

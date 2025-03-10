@@ -238,6 +238,11 @@
   orderMethod = '${orderMethod}';
 </script>
 <jsp:include page="../layout/title.jsp"/>
+<script>
+  $(document).on("click", "div.restaurant",function(){
+    location.href="/menu/list?restaurantId="+$(this).attr("restaurantId");
+  });
+</script>
 <div class="option">
   정렬 기준 :
   <div class="optionContainer">

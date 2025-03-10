@@ -2,6 +2,7 @@ package com.restaurant.service;
 
 import data.dto.RestaurantDto;
 import data.mapper.RestaurantMapper;
+import data.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +12,12 @@ import java.util.List;
 public class RestaurantService {
     @Autowired
     private RestaurantMapper mapper;
+    @Autowired
+    private ReviewService reviewService;
     public RestaurantDto getRestaurantById(int id){
-        return mapper.getRestaurantById(id);
+        RestaurantDto dto = mapper.getRestaurantById(id);
+        dto.setReviewCount(reviewService.getRestaurantReviewCount(dto.getRestaurantId()));
+        return dto;
     }
     public List<RestaurantDto> getRestaurantList(){
         return mapper.getRestaurantList();

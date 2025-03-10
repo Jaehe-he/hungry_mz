@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="data.mapper.MenuMapper">
     <select id="getMenuListByRestaurantId" parameterType="int" resultType="data.dto.MenuDto">
-        select * from menu where restaurant_id=#{restaurantId} order by price asc;
+        select menu_id as menuId, restaurant_id as restaurantId, name, price, image, description, registered_date as registeredDate from menu where restaurant_id=#{restaurantId} order by price asc;
     </select>
     <select id="getMenuListOrderByPriceAsc" resultType="data.dto.MenuDto">
         select * from menu order by price asc

@@ -49,7 +49,7 @@ public class RestaurantController {
         }else if(orderMethod.equals("likeDesc")){
             list = restaurantService.getPagingListOrderByIdAsc(startNum, perPage);
         }
-        list = restaurantService.getPagingListOrderByIdAsc(startNum, perPage);
+        //list = restaurantService.getPagingListOrderByIdAsc(startNum, perPage);
         for(RestaurantDto dto : list){
             System.out.println(dto);
         }
