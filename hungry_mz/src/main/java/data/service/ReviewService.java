@@ -28,5 +28,10 @@ public class ReviewService {
 	public void deleteReview(int reviewId) {
 		reviewMapper.deleteReview(reviewId);
 	}
-		
+	public int getRestaurantReviewCount(int restaurantId) {
+		return reviewMapper.getRestaurantReviewCount(restaurantId);
+	}
+	public int getMenuReviewCount(int menuId) {
+		return reviewMapper.getMenuReviewCount(menuId);
+	}
 }

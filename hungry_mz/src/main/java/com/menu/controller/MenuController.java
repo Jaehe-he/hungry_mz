@@ -3,13 +3,16 @@ package com.menu.controller;
 import com.menu.service.MenuService;
 import com.naver.storage.NcpObjectStorageService;
 import data.dto.MenuDto;
+import data.dto.ReviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,7 +22,10 @@ public class MenuController {
     private final MenuService menuService;
     private final NcpObjectStorageService storageService;
     @GetMapping("/menu/list")
-    public String menuList(@RequestParam(value="pageNum", defaultValue = "1") int pageNum, Model model){
+    public String menuList(@RequestParam(value="pageNum", defaultValue = "1") int pageNum, Model model, @RequestParam Boolean isPriceDesc){
+        System.out.println("isPriceAsc : "+isPriceDesc);
+        if (pageNum==0)
+            pageNum=1;
         //페이징 처리
         int perPage=10;//한페이지당 출력할 글의 갯수
         int perBlock=10; //한 블럭당 출력할 페이지 갯수
@@ -43,8 +49,11 @@ public class MenuController {
 
         //각 페이지에서 불러올 시작번호
         startNum=(pageNum-1)*perPage; //mysql 은 첫글이 0번(오라클은 1번이므로 +1해야한다)
-        list=menuService.getPagingList(startNum, perPage);
-
+        if(isPriceDesc){
+            list=menuService.getPagingListOrderByPriceDesc(startNum, perPage);
+        }else{
+            list=menuService.getPagingListOrderByPriceAsc(startNum, perPage);
+        }
         //각페이지의 글앞에 출력할 시작번호(예:총글이 20개일경우 1페이지는 20,2페이이즌 15..)
         no=totalCount-(pageNum-1)*perPage;
 
@@ -52,11 +61,13 @@ public class MenuController {
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("list", list);
         //페이지 출력에 필요한 모든 변수를 request 에 넣는다
+        model.addAttribute("pageNum", pageNum);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("no", no);
         model.addAttribute("pageNum", pageNum);
         model.addAttribute("totalPage", totalPage);
+        model.addAttribute("isPriceDesc", isPriceDesc);
 
         return "food/menuList";
     }
@@ -72,4 +83,5 @@ public class MenuController {
     public List<MenuDto> getMenuListByRestaurantId(@PathVariable int restaurantId){
         return menuService.getMenuListByRestaurantId(restaurantId);
     }
+
 }

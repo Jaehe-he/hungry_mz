@@ -48,9 +48,11 @@ public class NcpObjectStorageService implements ObjectStorageService{
                     objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead);
             System.out.println(objectRequest.getAccessControlList() );
             s3.putObject(objectRequest);
+            
+            //System.out.print(s3.getUrl(bucketName, directoryPath + filename).toString());
 
-            //return s3.getUrl(bucketName, directoryPath + filename).toString();
-            return filename;
+            return s3.getUrl(bucketName, directoryPath +"/"+ filename).toString();
+            //return filename;
 
         } catch (Exception e) {
             throw new RuntimeException("파일 업로드 오류", e);

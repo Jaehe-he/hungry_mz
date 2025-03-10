@@ -37,50 +37,50 @@
             float: left;
             width: 100px;
         }
-        
+
         div.modal-header {
-        	background-color : #8fbc8f;
+            background-color : #8fbc8f;
         }
 
-		div.modal-body {
-			display : flex;
-			justify-content : center;
-			background-color : #f5f5dc;
-		}
-		
-		/*로그인 버튼*/
-		.btn1 {
-		  flex: 1 1 auto;
-		  margin-top: 20px;
-		  padding: 10px;
-		  width : 200px;
-		  text-align: center;
-		  text-transform: uppercase;
-		  transition: 0.5s;
-		  background-size: 200% auto;
-		  color: white;
-		  box-shadow: 0 0 20px #eee;
-		  border-radius: 10px;
-		  border : none;
-		 }
-		 
-		.btn1:hover {
-			background-position: right center; 
-			color : black;
-		}
-		
-		.loginbtn {
-			background-image: linear-gradient(to right, #DEB887 0%, #BDB76B 49%, #8fbc8f 100%);
-		}
-		
-		#loginId {
-			width : 300px;
-			margin-bottom : 10px;
-		}
-		
-		.texts {
-			font-size : 1.2em;
-		}
+        div.modal-body {
+            display : flex;
+            justify-content : center;
+            background-color : #f5f5dc;
+        }
+
+        /*로그인 버튼*/
+        .btn1 {
+            flex: 1 1 auto;
+            margin-top: 20px;
+            padding: 10px;
+            width : 200px;
+            text-align: center;
+            text-transform: uppercase;
+            transition: 0.5s;
+            background-size: 200% auto;
+            color: white;
+            box-shadow: 0 0 20px #eee;
+            border-radius: 10px;
+            border : none;
+        }
+
+        .btn1:hover {
+            background-position: right center;
+            color : black;
+        }
+
+        .loginbtn {
+            background-image: linear-gradient(to right, #DEB887 0%, #BDB76B 49%, #8fbc8f 100%);
+        }
+
+        #loginId {
+            width : 300px;
+            margin-bottom : 10px;
+        }
+
+        .texts {
+            font-size : 1.2em;
+        }
     </style>
 </head>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
@@ -106,8 +106,11 @@
             <a href="${root}/restaurant/list">식당 목록</a>
         </li>
         <li>
-        	<c:if test="${sessionScope.loginstatus==null}">
-            	<a href="${root}/member/form">회원가입</a>
+            <a href="${root}/menu/list?isPriceDesc=false">메뉴 목록</a>
+        </li>
+        <li>
+            <c:if test="${sessionScope.loginstatus==null}">
+                <a href="${root}/member/form">회원가입</a>
             </c:if>
         </li>
         <li>
@@ -127,38 +130,38 @@
             </c:if>
         </li>
     </ul>
-        <script type="text/javascript">
-            $("#loginForm").submit(function(e){
-                e.preventDefault();// submit 기본 이벤트 무효화
-                alert("submit");
-                let loginId = $("#loginId").val();
-                let loginPass = $("#loginPassword").val();
-                $.ajax({
-                    type: "get",
-                    dataType: "json",
-                    data:{"username":loginId, "password":loginPass},
-                    url: "./login",
-                    success: function(res){
-                        if(res.result=='success'){
-                            $(".btnclose").trigger("click");
-                            location.reload();
-                        }else{
-                            alert("정보가 맞지 않습니다.");
-                        }
-                    }
-                });
-            });
-            $("#logout").click(function(){
-                $.ajax({
-                    dataType: "text",
-                    url: "./logout",
-                    type: "get",
-                    success: function (){
+    <script type="text/javascript">
+        $("#loginForm").submit(function(e){
+            e.preventDefault();// submit 기본 이벤트 무효화
+            alert("submit");
+            let loginId = $("#loginId").val();
+            let loginPass = $("#loginPassword").val();
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                data:{"username":loginId, "password":loginPass},
+                url: "./login",
+                success: function(res){
+                    if(res.result=='success'){
+                        $(".btnclose").trigger("click");
                         location.reload();
+                    }else{
+                        alert("정보가 맞지 않습니다.");
                     }
-                });
+                }
             });
-        </script>
+        });
+        $("#logout").click(function(){
+            $.ajax({
+                dataType: "text",
+                url: "./logout",
+                type: "get",
+                success: function (){
+                    location.reload();
+                }
+            });
+        });
+    </script>
 
 </div>
 
@@ -196,7 +199,7 @@
                         <tr>
                             <td colspan="2" align="center">
                                 <button type="submit" class="btn1 loginbtn">
-                                로그인
+                                    로그인
                                 </button>
                             </td>
                         </tr>

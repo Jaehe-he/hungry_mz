@@ -12,6 +12,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    
     <style>
         body * {
             font-family: 'Jua';
@@ -99,7 +100,7 @@
             display: inline-block;
         }
 
-        div.review {
+        div.reviewButton {
             width: 30%;
             font-size: 0.9em;
             display: inline-block;
@@ -164,30 +165,170 @@
         div.menuPage {
             margin: 1%;
         }
+        div.review {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+        }
+        div.reviewContent {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px;
+            border: 1px solid gray;
+            border-radius: 5px;
+            width: 350px;
+        }
+        button.review {
+            background: white;
+            border: none;
+        }
+        div.reviewImg {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+        }
+        div.reviewImg > img {
+            position: relative;
+            right: 0%;
+            width: 100px;
+            height: 100px;
+        }
+        .modal-body {
+            position: relative;
+        }
+
+        .writeReview {
+            width: 100%;
+            position: absolute;
+            display: flex;
+            justify-content: space-between; /* 좌우로 정렬 */
+            align-items: center; /* 수직 중앙 정렬 */
+            margin: 10px 0;
+        }
+        div.clicked {
+            background-color: lightgray;
+            border-radius: 10px;
+        }
+        div.restaurantName {
+            margin-left: 20px;
+        }
+        div.reviewList {
+            margin-top: 10px;
+            width: 100%;
+            margin-top: 60px;
+        }
+        
+        .modal-content {
+        border-radius: 15px;
+    }
+    .rating span {
+        font-size: 2em;
+        cursor: pointer;
+        color: #ccc;
+        transition: color 0.3s;
+    }
+    .rating span.active, .rating span:hover {
+        color: #f5c518;
+    }
+    
+    .reviewImg img{
+		width: 40px;
+	    height: 40px;
+		border: 1px solid black;
+		border-radius: 10px;
+			        } 
+        
+    .reviewbtn {
+        background-color: #28a745;
+        color: white;
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        transition: 0.3s;
+    }
+    .reviewbtn:hover {
+        background-color: #218838;
+    }
+    .custom-input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    #review {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    #review:hover {
+        background-color: #0056b3;
+    }
+    
+    .modal-header{
+    	background-color : #87CEFA;
+    }
+    
+    .modal-body{
+    	background-color : #F0F8FF;
+    }
+    
+    .modal-footer{
+    
+    }
+    
+    .mt-1{
+    	border : 1px solid #ccc;
+    	background-color : white;
+    	border-radius : 20px;
+    	padding : 80px;	
+    }
+    
+    label{
+    	font-size : 30px;
+    	padding-bottom : 20px;
+    }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 </head>
+<script>
+    let isPriceDesc = false;
+</script>
 <body>
 <jsp:include page="../layout/title.jsp"/>
 <div class="option">
     정렬 기준 :
     <div class="optionContainer">
-        <div class="listMethod">가격 낮은순</div>
-        |
-        <div class="listMethod">가격 높은순</div>
+        <c:if test="${isPriceDesc}">
+            <div class="listMethod"><a href="./list?pageNum=${pageNum}&isPriceDesc=false">가격 낮은순</a></div>
+            |
+            <div class="listMethod clicked"><a href="./list?pageNum=${pageNum}&isPriceDesc=true">가격 높은순</a></div>
+        </c:if>
+        <c:if test="${!isPriceDesc}">
+            <div class="listMethod clicked"><a href="./list?pageNum=${pageNum}&isPriceDesc=false">가격 낮은순</a></div>
+            |
+            <div class="listMethod"><a href="./list?pageNum=${pageNum}&isPriceDesc=true">가격 높은순</a></div>
+        </c:if>
     </div>
 </div>
 <div class="container">
     <div class="menuPage">
         <div class="menuList" style="height: 500px;">
             <c:forEach var="dto" items="${list}">
-                <div class="menu" menuId=${dto.menuId} restaurantId=${dto.restaurantId}>
+                <div class="menu" menuId=${dto.menuId} restaurantId="${dto.restaurantId}">
                     <div class="content text">
                         <span class="foodName">${dto.name}</span>
                         <span class="description">${dto.description}</span>
                         <div style="display: inline-block">
                             <div class="price">${dto.price}원</div>
-                            <div class="review">리뷰</div>
+                            <div class="reviewButton">리뷰</div>
+                            <span class="menuReviewCount">${dto.reviewCount}</span>
                         </div>
                     </div>
                     <c:if test="${dto.image!=''}">
@@ -202,37 +343,43 @@
         <div class="pagination">
             <c:if test="${startPage>1}">
                 <li class="page-item">
-                    <a class="page-link" href="./list?pageNum=${startPage-1}">Prev</a>
+                    <a class="page-link" href="./list?pageNum=${startPage-1}&isPriceDesc=${isPriceDesc}">Prev</a>
                 </li>
             </c:if>
             <c:forEach var="pp" begin="${startPage}" end="${endPage}">
                 <c:if test="${pp==pageNum}">
                     <li class="page-item active">
-                        <a class="page-link" href="./list?pageNum=${pp}">${pp}</a>
+                        <a class="page-link" href="./list?pageNum=${pp}&isPriceDesc=${isPriceDesc}">${pp}</a>
                     </li>
                 </c:if>
                 <c:if test="${pp!=pageNum}">
                     <li class="page-item">
-                        <a class="page-link" href="./list?pageNum=${pp}">${pp}</a>
+                        <a class="page-link" href="./list?pageNum=${pp}&isPriceDesc=${isPriceDesc}">${pp}</a>
                     </li>
                 </c:if>
             </c:forEach>
             <c:if test="${endPage<totalPage}">
                 <li class="page-item">
-                    <a class="page-link" href="./list?pageNum=${endPage+1}">Next</a>
+                    <a class="page-link" href="./list?pageNum=${endPage+1}&isPriceDesc=${isPriceDesc}">Next</a>
                 </li>
             </c:if>
         </div>
     </div>
     <script type="text/javascript">
+		var selectedResId;
+		var selectedMenuId;
+		var reviewImg;
+    
         $(document).ready(function () {
             $.ajax({
                 type: "get",
                 dataType: "json",
                 url: "/restaurant/random",
                 success: function (res) {
+                    $("div.restaurant").attr("restaurantId", res.restaurantId);
                     $("span.title").text(res.title);
                     $("img.thumbnail").attr("src", res.image);
+                    $("span#restaurantReviewCount").text(res.reviewCount);
                     $.ajax({
                         type: "get",
                         dataType: "json",
@@ -244,6 +391,11 @@
                                 let price = ele.price;
                                 let image = ele.image;
                                 let description = ele.description;
+                                let reviewCount = ele.reviewCount;
+                                
+                                let restaurantId = ele.restaurantId
+                                let menuId = ele.menuId
+                                
                                 s += `
                                 <div class="menu">
                                     <div class="content text">
@@ -251,7 +403,8 @@
                                         <span class="description">`+description+`</span>
                                         <div style="display: inline-block">
                                             <div class="price">`+price+`원</div>
-                                            <div class="review">리뷰</div>
+                                            <button type="button" class="review" data-bs-toggle="modal" data-bs-target="#reviewModal" onclick="setMenuId(`+restaurantId+`, `+menuId+`)">리뷰</button>
+                                            <span id="restaurantReviewCount">` + reviewCount + `</span>
                                         </div>
                                     </div>
                                 `;
@@ -271,18 +424,30 @@
                 }
             });
         });
+        
+        function setMenuId(resId, menuId){
+        	selectedResId = resId
+        	selectedMenuId= menuId
+        	
+        	alert(resId)
+        	alert(menuId)
+        }
+        
         $("div.menu").click(function () {
+            let restaurantId = $(this).attr("restaurantId");
             $.ajax({
                 type: "get",
                 dataType: "json",
-                url: "/restaurant/" + $(this).attr("restaurantId"),
+                url: "/restaurant/" + restaurantId,
                 success: function (res) {
+                    $("div.restaurant").attr("restaurantId", restaurantId);
                     $("span.title").text(res.title);
                     $("img.thumbnail").attr("src", res.image);
+                    $("span#restaurantReviewCount").text(res.reviewCount);
                     $.ajax({
                         type: "get",
                         dataType: "json",
-                        url: "/menu/restaurant/" + $(this).attr("restaurantId"),
+                        url: "/menu/restaurant/" + restaurantId,
                         success: function (res) {
                             let s = "";
                             $.each(res, function (idx, ele) {
@@ -290,6 +455,9 @@
                                 let price = ele.price;
                                 let image = ele.image;
                                 let description = ele.description;
+                                let reviewCount = ele.reviewCount;
+                                let menuId = ele.menuId;
+                                console.log(ele)
                                 s += `
                                 <div class="menu">
                                     <div class="content text">
@@ -297,7 +465,8 @@
                                         <span class="description">`+description+`</span>
                                         <div style="display: inline-block">
                                             <div class="price">`+price+`원</div>
-                                            <div class="review">리뷰</div>
+                                            <button type="button" class="review" data-bs-toggle="modal" data-bs-target="#reviewModal" onclick="setMenuId(`+restaurantId+`,`+menuId+`)">리뷰</button>
+                                            <span class="reviewCount">` + reviewCount + `</span>
                                         </div>
                                     </div>
                                 `;
@@ -327,7 +496,8 @@
             <span class="title">식당 이름</span>
         </div>
         <div class="info">
-            리뷰&nbsp;<span>n 개</span>
+            <button type="button" class="review" data-bs-toggle="modal" data-bs-target="#reviewModal">리뷰</button>
+            <span id="restaurantReviewCount">n</span>
         </div>
         <div class="info">
             <span>메뉴</span>
@@ -340,7 +510,7 @@
                     <span class="description">디테일</span>
                     <div style="display: inline-block">
                         <div class="price">가격</div>
-                        <div class="review">리뷰</div>
+                        <div class="reviewButton">리뷰</div>
                         <div class="reviewadd"></div>
                     </div>
                 </div>
@@ -355,7 +525,7 @@
                     <span class="description">디테일</span>
                     <div style="display: inline-block">
                         <div class="price">가격</div>
-                        <div class="review">리뷰</div>
+                        <div class="reviewButton">리뷰</div>
                     </div>
                 </div>
                 <div class="content img">
@@ -369,7 +539,7 @@
                     <span class="description">디테일</span>
                     <div style="display: inline-block">
                         <div class="price">가격</div>
-                        <div class="review">리뷰</div>
+                        <div class="reviewButton">리뷰</div>
                     </div>
                 </div>
                 <div class="content img">
@@ -380,5 +550,222 @@
         </div>
     </div>
 </div>
+<!-- The Modal -->
+<div class="modal" id="reviewModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">리뷰목록</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="writeReview">
+                    <div class="restaurantName">
+                        <h2>식당이름</h2>
+                    </div>
+                    <button style="margin-right: 20px;" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#reviewModal2" id="review" >리뷰 작성</button>
+                </div>
+                <div class="reviewList">
+                    <div class="review">
+                        <div class="reviewContent">
+                            <span>닉네임 : `+nickname+`</span>
+                            <span>별점 : `+star+`</span>
+                            <span>내용 : `+content+`</span>
+                        </div>
+                        <div class="reviewImg">
+                            <img src="${root}/s4.JPG">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).on("click", "button.review", function () {
+        let restaurantId = $("div.restaurant").attr("restaurantId");
+        let menuId = selectedMenuId
+        $.ajax({
+            type: "get",
+            dataType: "json",
+            url: "/review/reviewlist",
+            data: {
+            	"restaurantId": restaurantId,
+            	"menuId" : menuId
+           	},
+            success: function (res) {
+                let s = "";
+                $.each(res, function (idx, ele) {
+                    let nickname = ele.nickname;
+                    let content = ele.content;
+                    let star = ele.star;
+                    s += `
+                    <div class="review">
+                        <span>닉네임 : `+nickname+`</span>
+                        <span>별점 : `+star+`</span>
+                        <span>내용 : `+content+`</span>
+                    </div>
+                    `;
+                });
+                $("div.reviewList").html(s);
+            }
+        });
+    });
+</script>
+
+<!-- The Modal -->
+<div class="modal fade" id="reviewModal2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">리뷰 작성</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <form action="/submitReview" method="post" enctype="multipart/form-data" id="reviewForm">
+                    <input type="hidden" name="restaurantId" value="${restaurantId}">
+                    <input type="hidden" name="menuId" value="${menuId}">
+                    
+                    <div class="rating">
+                        <span onclick="rate(1)" onmouseover="highlight(1)" onmouseout="resetHighlight()">★</span>
+                        <span onclick="rate(2)" onmouseover="highlight(2)" onmouseout="resetHighlight()">★</span>
+                        <span onclick="rate(3)" onmouseover="highlight(3)" onmouseout="resetHighlight()">★</span>
+                        <span onclick="rate(4)" onmouseover="highlight(4)" onmouseout="resetHighlight()">★</span>
+                        <span onclick="rate(5)" onmouseover="highlight(5)" onmouseout="resetHighlight()">★</span>
+                    </div>
+                    <input type="hidden" id="rating" name="rating">
+                    
+                    <div class="mt-1">
+                        <label for="photo" class="form-label">사진을 추가해주세요!</label>
+                        <br>
+                        <input type="file" id="reviewImg" name="reviewImg" class="form-control" style="display:none;">
+                        <div id="reviewImgUpload" >
+                        <img src="../../add.png" width="150px;" class="addImg">
+                    </div>
+                    <script>
+                    $(function(){
+                    
+                    	$(".addImg").click(function(){
+                    		//alert(1);
+                    		$("#reviewImg").trigger("click");
+                    	});
+                    	
+                    	$("#reviewImg").change(function(e){
+                    		let form=new FormData();
+                    		form.append("upload", e.target.files[0]);
+                    		$.ajax({
+                    		    type: "POST",
+                    		    dataType: "text",
+                    		    data: form,
+                    		    processData: false,
+                    		    contentType: false,
+                    		    url: "/review/upload/menu",
+                    		    success: function(res) {
+                    		    	var html = '<img src="'+res+'" style="width:100px;"><i class="bi bi-x-circle-fill reviewphotodel" fname="'+res+'"></i>'
+                    		        $("#reviewImgUpload").html(html);
+                    		    	reviewImg = res
+                    		    }
+                    		});
+
+	                    	
+	                    	$(document).on("click", ".reviewphotodel", function() {
+	                    	    let close = $(this); // x아이콘
+	                    	    let fname = close.attr("fname");
+	                    	    $.ajax({
+	                    	        type: "DELETE", // Change from GET to DELETE
+	                    	        dataType: "text",
+	                    	        data: { "fname": fname },
+	                    	        url: "./reviewphotodel",
+	                    	        success: function() {
+	                    	            close.prev().remove();
+	                    	            close.remove();
+	                    	        }
+	                    	    });
+	                    	});
+	
+
+	                    	//리뷰 저장
+	                    	$("#btnreviewsave").click(function(){
+	                    		let restaurantId=selectedResId;
+	                    		let menuId = selectedMenuId;
+	                    		
+	                    		let c=$("#reviewContent").val();
+	                    		
+	                    		let param = {
+                    	            restaurantId: restaurantId,
+                    	            menuId: menuId,
+                    	            reviewContent: c,
+                    	            reviewImg: reviewImg
+                    	        }
+	                    		
+	                    		console.log(param)
+	                    		
+	                    	    $.ajax({
+	                    	        type: "POST",
+	                    	        url: "/review/addreview",
+	                    	        data: param,
+	                    	        success: function(response) {
+	                    	            alert("리뷰가 저장되었습니다.");
+	                    	        },
+	                    	        error: function(xhr, status, error) {
+	                    	            console.error("리뷰 저장 실패", status, error);
+	                    	            alert("리뷰 저장에 실패했습니다.");
+	                    	        }
+	                    	    });
+	                    	});
+	                    	
+                    	});
+
+                    })
+                    </script>
+                    
+                    <div class="mt-3">
+                        <label for="reviewContent" class="form-label">리뷰 내용</label>
+                        <textarea id="reviewContent" name="reviewContent" class="custom-input" rows="3" required></textarea>
+                    </div>
+                    </form>
+                 </div>
+                 <div class="modal-footer">
+                    
+                    <div class="mt-3">
+                        <button type="submit" class="btn" id="btnreviewsave">리뷰 저장</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentRating = 0;
+    
+    function rate(value) {
+        currentRating = value;
+        document.getElementById('rating').value = value;
+        highlight(currentRating);
+    }
+    
+    function highlight(value) {
+        const stars = document.querySelectorAll('.rating span');
+        stars.forEach((star, index) => {
+            star.classList.toggle('active', index < value);
+        });
+    }
+    
+    function resetHighlight() {
+        highlight(currentRating);
+    }
+</script>
 </body>
 </html>

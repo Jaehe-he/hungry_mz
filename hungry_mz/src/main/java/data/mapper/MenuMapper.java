@@ -13,6 +13,8 @@ public interface MenuMapper {
     void deleteMenuByMenuId(int menuId);
     void updateMenu(MenuDto dto);
     List<MenuDto> getMenuListOrderByPriceAsc();
+    List<MenuDto> getMenuListOrderByPriceDesc();
     int getTotalCount();
-    List<MenuDto> getPagingList(int start, int perpage);
+    List<MenuDto> getPagingListOrderByPriceDesc(int start, int perpage);
+    List<MenuDto> getPagingListOrderByPriceAsc(int start, int perpage);
 }

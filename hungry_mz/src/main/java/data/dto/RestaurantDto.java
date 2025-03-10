@@ -13,4 +13,5 @@ public class RestaurantDto {
     private String location;
     private String image;
     private Timestamp registeredDate;
+    private int reviewCount;
 }
