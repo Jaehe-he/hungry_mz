@@ -76,6 +76,7 @@
       width: 70%;
       text-align: center;
       margin-left: 10%;
+      margin-bottom: 10px;
     }
 
     div.listMethod {
@@ -196,7 +197,6 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      height: 500px;
       overflow: auto;
     }
 
@@ -221,7 +221,9 @@
     div.restaurantName {
       margin-left: 20px;
     }
-
+    div.restaurant {
+      width: 100%;
+    }
     div.reviewList {
       margin-top: 10px;
       width: 100%;
@@ -230,29 +232,35 @@
   </style>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 </head>
-<script>
-  let isPriceDesc = false;
-</script>
 <body>
+<script>
+  let orderMethod='likeDesc';
+  orderMethod = '${orderMethod}';
+</script>
 <jsp:include page="../layout/title.jsp"/>
 <div class="option">
   정렬 기준 :
   <div class="optionContainer">
-    <c:if test="${isPriceDesc}">
-      <div class="listMethod"><a href="./list?pageNum=${pageNum}&likeAsc=false">좋아요 많은순</a></div>
-      |
-      <div class="listMethod clicked"><a href="./list?pageNum=${pageNum}&likeAsc=true">좋아요 많은순</a></div>
+    <div class="listMethod" id="starDesc"><a href="./list?pageNum=${pageNum}&orderMethod=starDesc">별점순</a></div>
+    |
+    <div class="listMethod clicked" id="likeDesc"><a href="./list?pageNum=${pageNum}&orderMethod=likeDesc">좋아요순</a></div>
+    <c:if test="${orderMethod == 'likeDesc'}">
+      <script>
+        $("div.clicked").removeClass("clicked");
+        $("div#likeDesc").addClass("clicked")
+      </script>
     </c:if>
-    <c:if test="${!isPriceDesc}">
-      <div class="listMethod clicked"><a href="./list?pageNum=${pageNum}&likeAsc=false">좋아요 많은순</a></div>
-      |
-      <div class="listMethod"><a href="./list?pageNum=${pageNum}&likeAsc=true">가격 높은순</a></div>
+    <c:if test="${orderMethod == 'starDesc'}">
+      <script>
+        $("div.clicked").removeClass("clicked");
+        $("div#starDesc").addClass("clicked")
+      </script>
     </c:if>
   </div>
 </div>
 <div class="container">
   <div class="restaurantPage">
-    <div class="restaurantList" style="height: 400px;">
+    <div class="restaurantList">
       <c:forEach var="dto" items="${list}">
         <div class="restaurant" restaurantId="${dto.restaurantId}">
           <div class="thumbnail">
@@ -279,18 +287,18 @@
       <c:forEach var="pp" begin="${startPage}" end="${endPage}">
         <c:if test="${pp==pageNum}">
           <li class="page-item active">
-            <a class="page-link" href="./list?pageNum=${pp}&isPriceDesc=${isPriceDesc}">${pp}</a>
+            <a class="page-link" href="./list?pageNum=${pp}&orderMethod=${orderMethod}">${pp}</a>
           </li>
         </c:if>
         <c:if test="${pp!=pageNum}">
           <li class="page-item">
-            <a class="page-link" href="./list?pageNum=${pp}&isPriceDesc=${isPriceDesc}">${pp}</a>
+            <a class="page-link" href="./list?pageNum=${pp}&orderMethod=${orderMethod}">${pp}</a>
           </li>
         </c:if>
       </c:forEach>
       <c:if test="${endPage<totalPage}">
         <li class="page-item">
-          <a class="page-link" href="./list?pageNum=${endPage+1}&isPriceDesc=${isPriceDesc}">Next</a>
+          <a class="page-link" href="./list?pageNum=${endPage+1}&orderMethod=${orderMethod}">Next</a>
         </li>
       </c:if>
     </div>

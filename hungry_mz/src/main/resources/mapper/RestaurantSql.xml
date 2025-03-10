@@ -25,4 +25,18 @@
 	<select id="getTotalCount" resultType="int">
 		select count(*) from restaurant
 	</select>
+	<select id="getPagingListOrderByStarDesc" parameterType="Map" resultType="data.dto.RestaurantDto">
+		SELECT
+			r.restaurant_id as restaurantId,
+			r.title as title,
+			r.image as image,
+			r.registered_date as registeredDate,
+			COALESCE(COUNT(v.review_id), 0) AS reviewCount,
+			COALESCE(AVG(v.star), 0) AS averageStar  -- 별점이 없는 경우 0으로 처리
+		FROM restaurant r
+				 LEFT JOIN review v ON r.restaurant_id = v.restaurant_id
+		GROUP BY r.restaurant_id
+		ORDER BY averageStar DESC
+			limit #{startNum},#{perPage};
+	</select>
 </mapper>

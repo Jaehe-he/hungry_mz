@@ -102,7 +102,7 @@
             <a href="${root}/">Home</a>
         </li>
         <li>
-            <a href="${root}/restaurant/list">식당 목록</a>
+            <a href="${root}/restaurant/list?orderMethod=starDesc">식당 목록</a>
         </li>
         <li>
             <a href="${root}/menu/list?orderMethod=priceAsc">메뉴 목록</a>

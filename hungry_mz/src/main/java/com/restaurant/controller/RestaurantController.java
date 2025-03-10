@@ -18,7 +18,7 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
     private final ReviewService reviewService;
     @GetMapping("/list")
-    public String restaurantList(@RequestParam(value="pageNum", defaultValue = "1") int pageNum, Model model){
+    public String restaurantList(@RequestParam(value="pageNum", defaultValue = "1") int pageNum, Model model, @RequestParam String orderMethod){
         if (pageNum==0)
             pageNum=1;
         //페이징 처리
@@ -44,15 +44,14 @@ public class RestaurantController {
 
         //각 페이지에서 불러올 시작번호
         startNum=(pageNum-1)*perPage; //mysql 은 첫글이 0번(오라클은 1번이므로 +1해야한다)
-//        if(isPriceDesc){
-//            list=restaurantService.getPagingListOrderByPriceDesc(startNum, perPage);
-//        }else{
-//            list=restaurantService.getPagingListOrderByPriceAsc(startNum, perPage);
-//        }
+        if(orderMethod.equals("starDesc")){
+            list=restaurantService.getPagingListOrderByStarDesc(startNum, perPage);
+        }else if(orderMethod.equals("likeDesc")){
+            list = restaurantService.getPagingListOrderByIdAsc(startNum, perPage);
+        }
         list = restaurantService.getPagingListOrderByIdAsc(startNum, perPage);
         for(RestaurantDto dto : list){
-            int reviewCount = reviewService.getRestaurantReviewCount(dto.getRestaurantId());
-            dto.setReviewCount(reviewCount);
+            System.out.println(dto);
         }
         //각페이지의 글앞에 출력할 시작번호(예:총글이 20개일경우 1페이지는 20,2페이이즌 15..)
         no=totalCount-(pageNum-1)*perPage;
@@ -67,7 +66,10 @@ public class RestaurantController {
         model.addAttribute("no", no);
         model.addAttribute("pageNum", pageNum);
         model.addAttribute("totalPage", totalPage);
-
+        model.addAttribute("orderMethod", orderMethod);
+        System.out.println("orderMethod : "+orderMethod);
+        System.out.println("startNum:"+startNum);
+        System.out.println("perPage:"+perPage);
         return "food/restaurantList";
     }
     public List<RestaurantDto>getRestaurantList(){

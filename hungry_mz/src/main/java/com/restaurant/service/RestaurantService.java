@@ -30,6 +30,12 @@ public class RestaurantService {
         return mapper.getTotalCount();
     }
     public List<RestaurantDto> getPagingListOrderByIdAsc(int start, int perpage){
+        System.out.println("orderId");
         return mapper.getPagingListOrderByIdAsc(start, perpage);
+    }
+
+    public List<RestaurantDto> getPagingListOrderByStarDesc(int startNum, int perPage) {
+        System.out.println("orderStar");
+        return mapper.getPagingListOrderByStarDesc(startNum, perPage);
     }
 }

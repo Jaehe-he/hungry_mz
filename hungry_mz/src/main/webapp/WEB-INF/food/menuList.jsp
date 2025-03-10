@@ -85,6 +85,7 @@
             width: 70%;
             text-align: center;
             margin-left: 10%;
+            margin-bottom: 10px;
         }
 
         div.listMethod {
@@ -107,7 +108,7 @@
 
         div.optionContainer {
             display: inline-block;
-            width: 200px;
+            width: 300px;
             border: 1px solid black;
             border-radius: 5px;
             text-align: center;
@@ -222,7 +223,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 </head>
 <script>
-    let isPriceDesc = false;
+    let orderMethod = 'priceDesc';
 </script>
 <body>
 <jsp:include page="../layout/title.jsp"/>
@@ -286,18 +287,18 @@
             <c:forEach var="pp" begin="${startPage}" end="${endPage}">
                 <c:if test="${pp==pageNum}">
                     <li class="page-item active">
-                        <a class="page-link" href="./list?pageNum=${pp}&isPriceDesc=${isPriceDesc}">${pp}</a>
+                        <a class="page-link" href="./list?pageNum=${pp}&orderMethod=${orderMethod}">${pp}</a>
                     </li>
                 </c:if>
                 <c:if test="${pp!=pageNum}">
                     <li class="page-item">
-                        <a class="page-link" href="./list?pageNum=${pp}&isPriceDesc=${isPriceDesc}">${pp}</a>
+                        <a class="page-link" href="./list?pageNum=${pp}&orderMethod=${orderMethod}">${pp}</a>
                     </li>
                 </c:if>
             </c:forEach>
             <c:if test="${endPage<totalPage}">
                 <li class="page-item">
-                    <a class="page-link" href="./list?pageNum=${endPage+1}&isPriceDesc=${isPriceDesc}">Next</a>
+                    <a class="page-link" href="./list?pageNum=${endPage+1}&orderMethod=${orderMethod}">Next</a>
                 </li>
             </c:if>
         </div>
@@ -522,6 +523,7 @@
                     let nickname = ele.nickname;
                     let content = ele.reviewContent;
                     let star = ele.star;
+                    let image = ele.reviewImg;
                     let stars="";
                     for(let i=0; i<5; i++){
                         if(star>0){
@@ -531,11 +533,16 @@
                             stars+=`<i class="bi bi-star"></i>`
                         }
                     }
+                    if(image!=null){
+                        s+=`<div class="review">
+                        <img class="reviewImg" src="`+ image +`">
+                        `;
+                    }
                     s += `
-                    <div class="review">
                         <span>`+nickname+`</span>
                         <span>`+stars+`</span>
-                        <span>`+content+`</span>
+                        <span>`+content+`</span>`;
+                    s+=`
                     </div>
                     <hr>
                     `;

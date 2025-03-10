@@ -16,4 +16,5 @@ public interface RestaurantMapper {
     int getTotalCount();
     @Select("SELECT restaurant_id as restaurantId, title, location, image FROM restaurant ORDER BY restaurant_id ASC LIMIT #{start}, #{perpage}")
     List<RestaurantDto> getPagingListOrderByIdAsc(int start, int perpage);
+    List<RestaurantDto> getPagingListOrderByStarDesc(int startNum, int perPage);
 }
