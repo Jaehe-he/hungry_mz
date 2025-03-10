@@ -18,4 +18,5 @@ public class MenuDto {
     private String description;
     private Timestamp registeredDate;
     private int reviewCount;
+    private double averageStar;
 }

@@ -24,6 +24,7 @@ public class ReviewDto {
 	private String username;
 	private String reviewContent;
 	private String reviewImg;
+	
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul")
 	private Timestamp writeDate;
 	private int star;

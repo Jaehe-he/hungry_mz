@@ -43,7 +43,7 @@
 			
 		.intro-sub {
 			 margin: 30px 0 50px;
-			 font-size: 18px;
+			 font-size: 22px;
 			 text-align: center;
 			 opacity: 0.6;
 			}
@@ -380,6 +380,165 @@
             <span class="textBox-sub">여러 메뉴를 원한다면 여기로</span>
           </div>
       </div>
+      
+      <div class="restaurant-list" data-type="양식">
+          <div class="list-tags">
+            <span class="tag">#연남</span>
+            <span class="tag">#양식</span>
+          </div>
+          <div class="list-imgBox">
+            <img class="img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20221005_189%2F1664897234715SLKzt_JPEG%2FIMG_1903.jpg">
+          </div>
+          <div class="list-textBox">
+            <span class="textBox-name">디어리스트</span>
+            <span class="textBox-sub">스테이크와 파스타를 함께~</span>
+          </div>
+      </div>
+      
+      <div class="restaurant-list" data-type="양식">
+          <div class="list-tags">
+            <span class="tag">#연남</span>
+            <span class="tag">#플래터</span>
+          </div>
+          <div class="list-imgBox">
+            <img class="img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250126_95%2F1737865596726HOU6K_JPEG%2FR3__3646.jpg">
+          </div>
+          <div class="list-textBox">
+            <span class="textBox-name">고스튼블랙</span>
+            <span class="textBox-sub">예쁜 플레이팅으로 먹고싶다면?</span>
+          </div>
+      </div>
+      <div class="restaurant-list" data-type="양식">
+          <div class="list-tags">
+            <span class="tag">#파스타</span>
+            <span class="tag">#가성비</span>
+          </div>
+          <div class="list-imgBox">
+            <img class="img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20211129_199%2F1638168131509jKtwa_JPEG%2F01E7A023-0BC2-41B5-8870-A7CF642C1E03.jpeg">
+          </div>
+          <div class="list-textBox">
+            <span class="textBox-name">쌤쌤쌤</span>
+            <span class="textBox-sub">가성비적인 음식점</span>
+          </div>
+      </div>
+      <div class="restaurant-list" data-type="양식">
+          <div class="list-tags">
+            <span class="tag">#스테이크</span>
+            <span class="tag">#파스타</span>
+          </div>
+          <div class="list-imgBox">
+            <img class="img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20231114_140%2F1699956951280g2vFm_JPEG%2FIMG_7123.jpeg">
+          </div>
+          <div class="list-textBox">
+            <span class="textBox-name">헤이죠지</span>
+            <span class="textBox-sub">평타는 친다!!</span>
+          </div>
+      </div>
+      <div class="restaurant-list" data-type="중식">
+          <div class="list-tags">
+            <span class="tag">#체인점</span>
+            <span class="tag">#중식</span>
+          </div>
+          <div class="list-imgBox">
+            <img class="img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fpup-review-phinf.pstatic.net%2FMjAyNTAzMDdfMjk2%2FMDAxNzQxMzIzODQyMzA1.zBqXBxvQ0oYYvaqNBUXGrb59_HGQFkT5ZMDoRUhZQJwg.qVtbj1ixP41vhlFxEP5j5FXoGCTAduop103HeJtrFucg.JPEG%2FIMG_6641.jpeg%3Ftype%3Dw1500_60_sharpen">
+          </div>
+          <div class="list-textBox">
+            <span class="textBox-name">라화쿵부</span>
+            <span class="textBox-sub">사골육수에 마라소스를 곁들인</span>
+          </div>
+      </div>
+      <div class="restaurant-list" data-type="중식">
+          <div class="list-tags">
+            <span class="tag">#양꼬치</span>
+            <span class="tag">#중식</span>
+          </div>
+          <div class="list-imgBox">
+            <img class="img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20240217_285%2F1708102484048n5yVl_JPEG%2FKakaoTalk_20240216_233630758_02.jpg">
+          </div>
+          <div class="list-textBox">
+            <span class="textBox-name">화양양꼬치</span>
+            <span class="textBox-sub">꼬치의 중독성</span>
+          </div>
+      </div>
+      <div class="restaurant-list" data-type="고기">
+          <div class="list-tags">
+            <span class="tag">#고기</span>
+            <span class="tag">#소돼지</span>
+          </div>
+          <div class="list-imgBox">
+            <img class="img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20230628_114%2F1687931721613pL4Mt_JPEG%2FKakaoTalk_20230627_214010921_11.jpg">
+          </div>
+          <div class="list-textBox">
+            <span class="textBox-name">신당육</span>
+            <span class="textBox-sub">소와 돼지 둘다 있다!</span>
+          </div>
+      </div>
+      <div class="restaurant-list" data-type="고기">
+          <div class="list-tags">
+            <span class="tag">#폭립</span>
+            <span class="tag">#바베큐</span>
+          </div>
+          <div class="list-imgBox">
+            <img class="img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20230723_214%2F1690111798290a9dBr_JPEG%2FKakaoTalk_20220921_105248049_02.jpg">
+          </div>
+          <div class="list-textBox">
+            <span class="textBox-name">방이별관</span>
+            <span class="textBox-sub">폭립과 바베큐파티</span>
+          </div>
+      </div>
+      <div class="restaurant-list" data-type="분식">
+          <div class="list-tags">
+            <span class="tag">#튀김</span>
+            <span class="tag">#떡볶이</span>
+          </div>
+          <div class="list-imgBox">
+            <img class="img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20241129_162%2F17328814166946l3Yb_JPEG%2F1DSC07570.jpg">
+          </div>
+          <div class="list-textBox">
+            <span class="textBox-name">영차떡볶이</span>
+            <span class="textBox-sub">푸짐하게 배터지게</span>
+          </div>
+      </div>
+      <div class="restaurant-list" data-type="분식">
+          <div class="list-tags">
+            <span class="tag">#가성비</span>
+            <span class="tag">#라볶이<span>
+          </div>
+          <div class="list-imgBox">
+            <img class="img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20250306_19%2F17412213531970mpQI_PNG%2F%25B5%25F0%25B5%25A8%25B8%25AE-10%25BF%25F9-%25BD%25C5%25B8%25DE%25B4%25BA-%25C6%25F7%25BD%25BA%25C5%25CD-%25B8%25AE%25BC%25D2%25C5%25E43%25C1%25BE.png">
+          </div>
+          <div class="list-textBox">
+            <span class="textBox-name">디델리</span>
+            <span class="textBox-sub">가성비하면 여기!</span>
+          </div>
+      </div>
+      <div class="restaurant-list" data-type="기타">
+          <div class="list-tags">
+            <span class="tag">#쌀국수</span>
+            <span class="tag">#베트남</span>
+          </div>
+          <div class="list-imgBox">
+            <img class="img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20231106_140%2F16992525893699TFjn_JPEG%2FAND03611.jpg">
+          </div>
+          <div class="list-textBox">
+            <span class="textBox-name">뎁짜이</span>
+            <span class="textBox-sub">시원하게 국물 한사발</span>
+          </div>
+      </div>
+      <div class="restaurant-list" data-type="기타">
+          <div class="list-tags">
+            <span class="tag">#장어</span>
+            <span class="tag">#가락</span>
+          </div>
+          <div class="list-imgBox">
+            <img class="img" src="https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20180222_248%2F15193084960667lRFk_JPEG%2FOfAwFLfAGrX7jULz8E1-mHHD.jpg">
+          </div>
+          <div class="list-textBox">
+            <span class="textBox-name">용장어</span>
+            <span class="textBox-sub">장어를 먹고싶다면?</span>
+          </div>
+      </div>
+      
   	</div>
   </div>
 </body>

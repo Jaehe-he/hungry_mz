@@ -92,7 +92,7 @@
 		<img src="https://r2.jjalbot.com/2023/03/97QEzlfSVp.jpeg" width="70">
             &nbsp;&nbsp; 배고픈 MZ
         </a>
-        <span style="margin-left: 300px; font-size: 15px">
+        <span style="margin-left : 55%; font-size: 15px">
         <c:if test="${sessionScope.loginstatus!=null}">
             <b>${sessionScope.username}</b>님이 로그인 중입니다.
         </c:if>
@@ -106,16 +106,16 @@
             <a href="${root}/restaurant/list">식당 목록</a>
         </li>
         <li>
-            <a href="${root}/menu/list?isPriceDesc=false">메뉴 목록</a>
+            <a href="${root}/menu/list?orderMethod=priceAsc">메뉴 목록</a>
         </li>
         <li>
             <c:if test="${sessionScope.loginstatus==null}">
                 <a href="${root}/member/form">회원가입</a>
             </c:if>
-        </li>
+        </li><%-- 
         <li>
             <a href="${root}/review/reviewform">게시판</a>
-        </li>
+        </li> --%>
         <li>
             <c:if test="${sessionScope.loginstatus==null}">
                 <span data-bs-toggle="modal" data-bs-target="#myLoginModal" style="cursor:pointer;" id="login">로그인</span>

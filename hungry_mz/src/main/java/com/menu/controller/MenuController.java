@@ -4,6 +4,7 @@ import com.menu.service.MenuService;
 import com.naver.storage.NcpObjectStorageService;
 import data.dto.MenuDto;
 import data.dto.ReviewDto;
+import data.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +22,11 @@ import java.util.List;
 public class MenuController {
     private final MenuService menuService;
     private final NcpObjectStorageService storageService;
+    private final ReviewService reviewService;
+
     @GetMapping("/menu/list")
-    public String menuList(@RequestParam(value="pageNum", defaultValue = "1") int pageNum, Model model, @RequestParam Boolean isPriceDesc){
-        System.out.println("isPriceAsc : "+isPriceDesc);
+    public String menuList(@RequestParam(value="pageNum", defaultValue = "1") int pageNum, Model model, @RequestParam String orderMethod){
+        System.out.println("orderMethod : "+orderMethod);
         if (pageNum==0)
             pageNum=1;
         //페이징 처리
@@ -49,10 +52,15 @@ public class MenuController {
 
         //각 페이지에서 불러올 시작번호
         startNum=(pageNum-1)*perPage; //mysql 은 첫글이 0번(오라클은 1번이므로 +1해야한다)
-        if(isPriceDesc){
+        if(orderMethod.equals("priceDesc")){
             list=menuService.getPagingListOrderByPriceDesc(startNum, perPage);
-        }else{
+        }else if(orderMethod.equals("priceAsc")){
             list=menuService.getPagingListOrderByPriceAsc(startNum, perPage);
+        }else if(orderMethod.equals("starDesc")){
+            list=menuService.getPagingListOrderByStarDesc(startNum, perPage);
+        }
+        for(MenuDto menuDto:list){
+            menuDto.setReviewCount(reviewService.getMenuReviewCount(menuDto.getMenuId()));
         }
         //각페이지의 글앞에 출력할 시작번호(예:총글이 20개일경우 1페이지는 20,2페이이즌 15..)
         no=totalCount-(pageNum-1)*perPage;
@@ -67,7 +75,7 @@ public class MenuController {
         model.addAttribute("no", no);
         model.addAttribute("pageNum", pageNum);
         model.addAttribute("totalPage", totalPage);
-        model.addAttribute("isPriceDesc", isPriceDesc);
+        model.addAttribute("orderMethod", orderMethod);
 
         return "food/menuList";
     }

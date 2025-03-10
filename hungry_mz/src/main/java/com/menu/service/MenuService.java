@@ -43,4 +43,8 @@ public class MenuService {
     public List<MenuDto> getPagingListOrderByPriceAsc(int start, int perpage){
         return mapper.getPagingListOrderByPriceAsc(start, perpage);
     }
+
+    public List<MenuDto> getPagingListOrderByStarDesc(int start, int perpage) {
+        return mapper.getPagingListOrderByStarDesc(start, perpage);
+    }
 }

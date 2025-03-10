@@ -17,4 +17,5 @@ public interface MenuMapper {
     int getTotalCount();
     List<MenuDto> getPagingListOrderByPriceDesc(int start, int perpage);
     List<MenuDto> getPagingListOrderByPriceAsc(int start, int perpage);
+    List<MenuDto> getPagingListOrderByStarDesc(int start, int perpage);
 }

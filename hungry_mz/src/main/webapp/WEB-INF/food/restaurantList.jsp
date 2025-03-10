@@ -80,7 +80,7 @@
 
     div.listMethod {
       display: inline-block;
-      width: 80px;
+      width: 85px;
       text-align: center;
     }
 
