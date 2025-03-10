@@ -39,4 +39,21 @@
     <select id="getPagingListOrderByPriceAsc" parameterType="Map" resultType="data.dto.MenuDto">
         select menu_id as menuId, restaurant_id as restaurantId, name, price, image, description from menu order by price asc limit #{start}, #{perpage} ;
     </select>
+    <select id="getPagingListOrderByStarDesc" parameterType="Map" resultType="data.dto.MenuDto">
+        SELECT
+            m.menu_id as menuId,
+            m.restaurant_id as restaurantId,
+            m.name,
+            m.price,
+            m.image,
+            m.description,
+            m.registered_date as registeredDate,
+            COALESCE(COUNT(r.review_id), 0) AS reviewCount,
+            COALESCE(AVG(r.star), 0) AS averageStar  -- 별점이 없는 경우 0으로 처리
+        FROM menu m
+                 LEFT JOIN review r ON m.menu_id = r.menu_id
+        GROUP BY m.menu_id, m.restaurant_id, m.name, m.price, m.image, m.description, m.registered_date
+        ORDER BY averageStar DESC, price asc
+            limit #{start},#{perpage};
+    </select>
 </mapper>

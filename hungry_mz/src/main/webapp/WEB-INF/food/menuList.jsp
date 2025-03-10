@@ -167,7 +167,7 @@
         div.review {
             width: 100%;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
         }
         div.reviewContent {
             display: flex;
@@ -216,6 +216,7 @@
             margin-top: 10px;
             width: 100%;
             margin-top: 60px;
+            overflow: auto;
         }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
@@ -228,15 +229,28 @@
 <div class="option">
     정렬 기준 :
     <div class="optionContainer">
-        <c:if test="${isPriceDesc}">
-            <div class="listMethod"><a href="./list?pageNum=${pageNum}&isPriceDesc=false">가격 낮은순</a></div>
-            |
-            <div class="listMethod clicked"><a href="./list?pageNum=${pageNum}&isPriceDesc=true">가격 높은순</a></div>
+        <div class="listMethod" id="priceDesc"><a href="./list?pageNum=${pageNum}&orderMethod=priceAsc">가격 낮은순</a></div>
+        |
+        <div class="listMethod clicked" id="priceAsc"><a href="./list?pageNum=${pageNum}&orderMethod=priceDesc">가격 높은순</a></div>
+        |
+        <div class="listMethod" id="starDesc"><a href="./list?pageNum=${pageNum}&orderMethod=starDesc">별점순</a></div>
+        <c:if test="${orderMethod == 'priceAsc'}">
+            <script>
+                $("div.clicked").removeClass("clicked");
+                $("div#priceAsc").addClass("clicked")
+            </script>
         </c:if>
-        <c:if test="${!isPriceDesc}">
-            <div class="listMethod clicked"><a href="./list?pageNum=${pageNum}&isPriceDesc=false">가격 낮은순</a></div>
-            |
-            <div class="listMethod"><a href="./list?pageNum=${pageNum}&isPriceDesc=true">가격 높은순</a></div>
+        <c:if test="${orderMethod == 'priceDesc'}">
+            <script>
+                $("div.clicked").removeClass("clicked");
+                $("div#priceDesc").addClass("clicked")
+            </script>
+        </c:if>
+        <c:if test="${orderMethod == 'starDesc'}">
+            <script>
+                $("div.clicked").removeClass("clicked");
+                $("div#starDesc").addClass("clicked")
+            </script>
         </c:if>
     </div>
 </div>
@@ -356,6 +370,7 @@
                         url: "/menu/restaurant/" + restaurantId,
                         success: function (res) {
                             let s = "";
+
                             $.each(res, function (idx, ele) {
                                 let name = ele.name;
                                 let price = ele.price;
@@ -474,8 +489,8 @@
                 <div class="reviewList">
                     <div class="review">
                         <div class="reviewContent">
-                            <span>닉네임 : `+nickname+`</span>
-                            <span>별점 : `+star+`</span>
+                            <span>닉네임 : `+nickname+`</span><br>
+                            <span>별점 : `+star+`</span><br>
                             <span>내용 : `+content+`</span>
                         </div>
                         <div class="reviewImg">
@@ -502,17 +517,27 @@
             url: "/review/reviewlist",
             data: {"restaurantId": restaurantId},
             success: function (res) {
-                let s = "";
+                let s = "<hr>";
                 $.each(res, function (idx, ele) {
                     let nickname = ele.nickname;
-                    let content = ele.content;
+                    let content = ele.reviewContent;
                     let star = ele.star;
+                    let stars="";
+                    for(let i=0; i<5; i++){
+                        if(star>0){
+                            stars+='<i class="bi bi-star-fill"></i>';
+                            star--;
+                        }else{
+                            stars+=`<i class="bi bi-star"></i>`
+                        }
+                    }
                     s += `
                     <div class="review">
-                        <span>닉네임 : `+nickname+`</span>
-                        <span>별점 : `+star+`</span>
-                        <span>내용 : `+content+`</span>
+                        <span>`+nickname+`</span>
+                        <span>`+stars+`</span>
+                        <span>`+content+`</span>
                     </div>
+                    <hr>
                     `;
                 });
                 $("div.reviewList").html(s);

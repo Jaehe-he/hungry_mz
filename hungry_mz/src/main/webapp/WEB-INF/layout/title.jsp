@@ -105,7 +105,7 @@
             <a href="${root}/restaurant/list">식당 목록</a>
         </li>
         <li>
-            <a href="${root}/menu/list?isPriceDesc=false">메뉴 목록</a>
+            <a href="${root}/menu/list?orderMethod=priceAsc">메뉴 목록</a>
         </li>
         <li>
             <c:if test="${sessionScope.loginstatus==null}">
